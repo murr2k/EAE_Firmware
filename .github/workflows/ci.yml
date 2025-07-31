@@ -535,3 +535,104 @@ jobs:
         git add .ci-results/
         git diff --staged --quiet || git commit -m "ci: update test results [skip ci]"
         git push || echo "Push failed - likely due to concurrent runs"
+        
+    # Slack Notification
+    - name: Prepare Slack Message
+      if: always()
+      id: slack-message
+      run: |
+        # Determine overall status
+        if [[ "${{ needs.cpp-build-test.result }}" == "failure" ]] || \
+           [[ "${{ needs.python-test.result }}" == "failure" ]] || \
+           [[ "${{ needs.static-analysis.result }}" == "failure" ]] || \
+           [[ "${{ needs.documentation.result }}" == "failure" ]]; then
+          OVERALL_STATUS="failure"
+          STATUS_EMOJI="❌"
+          STATUS_COLOR="danger"
+        elif [[ "${{ needs.cpp-build-test.result }}" == "success" ]] && \
+             [[ "${{ needs.python-test.result }}" == "success" ]] && \
+             [[ "${{ needs.static-analysis.result }}" == "success" ]] && \
+             [[ "${{ needs.documentation.result }}" == "success" ]]; then
+          OVERALL_STATUS="success"
+          STATUS_EMOJI="✅"
+          STATUS_COLOR="good"
+        else
+          OVERALL_STATUS="partial"
+          STATUS_EMOJI="⚠️"
+          STATUS_COLOR="warning"
+        fi
+        
+        echo "overall_status=$OVERALL_STATUS" >> $GITHUB_OUTPUT
+        echo "status_emoji=$STATUS_EMOJI" >> $GITHUB_OUTPUT
+        echo "status_color=$STATUS_COLOR" >> $GITHUB_OUTPUT
+        
+    - name: Send Slack Notification
+      if: always() && (github.event_name == 'push' || github.event_name == 'pull_request')
+      uses: slackapi/slack-github-action@v1.24.0
+      with:
+        payload: |
+          {
+            "attachments": [{
+              "color": "${{ steps.slack-message.outputs.status_color }}",
+              "blocks": [
+                {
+                  "type": "header",
+                  "text": {
+                    "type": "plain_text",
+                    "text": "${{ steps.slack-message.outputs.status_emoji }} CI/CD Pipeline: ${{ steps.slack-message.outputs.overall_status }}"
+                  }
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Repository:*\n<${{ github.server_url }}/${{ github.repository }}|${{ github.repository }}>"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Branch:*\n${{ github.ref_name }}"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Commit:*\n<${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}|${{ github.sha }}>"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Author:*\n${{ github.actor }}"
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*Job Results:*\n• C++ Build & Test: ${{ needs.cpp-build-test.result }}\n• Python Tests: ${{ needs.python-test.result }}\n• Static Analysis: ${{ needs.static-analysis.result }}\n• Documentation: ${{ needs.documentation.result }}\n• Sanitizers: ${{ needs.sanitizer-tests.result }}"
+                  }
+                },
+                {
+                  "type": "actions",
+                  "elements": [
+                    {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "View Run"
+                      },
+                      "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+                    },
+                    {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "View Commit"
+                      },
+                      "url": "${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}"
+                    }
+                  ]
+                }
+              ]
+            }]
+          }
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

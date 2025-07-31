@@ -1,9 +1,17 @@
 # EAE Firmware Challenge Submission
 
 [![CI/CD Pipeline](https://github.com/murr2k/EAE_Firmware/actions/workflows/ci.yml/badge.svg)](https://github.com/murr2k/EAE_Firmware/actions/workflows/ci.yml)
+[![Tests](https://img.shields.io/github/actions/workflow/status/murr2k/EAE_Firmware/ci.yml?label=tests)](https://github.com/murr2k/EAE_Firmware/actions/workflows/ci.yml)
 [![Code Coverage](https://github.com/murr2k/EAE_Firmware/actions/workflows/coverage.yml/badge.svg)](https://github.com/murr2k/EAE_Firmware/actions/workflows/coverage.yml)
 [![Release](https://img.shields.io/github/v/release/murr2k/EAE_Firmware)](https://github.com/murr2k/EAE_Firmware/releases/latest)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
+[![CI Status](https://github.com/murr2k/EAE_Firmware/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/murr2k/EAE_Firmware/actions/workflows/ci.yml)
+[![Lines of Code](https://img.shields.io/tokei/lines/github/murr2k/EAE_Firmware)](https://github.com/murr2k/EAE_Firmware)
+[![Last Commit](https://img.shields.io/github/last-commit/murr2k/EAE_Firmware)](https://github.com/murr2k/EAE_Firmware/commits/main)
+[![Issues](https://img.shields.io/github/issues/murr2k/EAE_Firmware)](https://github.com/murr2k/EAE_Firmware/issues)
+[![C++](https://img.shields.io/badge/C%2B%2B-17-blue.svg)](https://en.cppreference.com/w/cpp/17)
+[![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20MSYS2-blue)](README.md)
 
 **Author:** Murray Kopit
 **Date:** July 31, 2025
@@ -281,6 +289,7 @@ This project features a comprehensive CI/CD pipeline using GitHub Actions that e
 - **Artifact Management**: Test results and coverage reports preserved
 - **Comprehensive Results Collection**: JSON, CSV, and XML formats for analysis
 - **Historical Tracking**: Automatic persistence of test results to repository
+- **Slack Notifications**: Real-time alerts for both successes and failures
 - **Dependency Management**: Automated updates via Dependabot
 - **Pull Request Template**: Standardized contribution process
 
@@ -360,6 +369,7 @@ See [Issues](https://github.com/murr2k/EAE_Firmware/issues) for feature requests
 - [CI_CD_TEST_RESULTS.md](CI_CD_TEST_RESULTS.md) - Detailed CI/CD pipeline test results
 - [WORKFLOW_FAILURE_ANALYSIS.md](WORKFLOW_FAILURE_ANALYSIS.md) - CI/CD troubleshooting guide
 - [CI_RESULTS_GUIDE.md](CI_RESULTS_GUIDE.md) - Guide to accessing and analyzing CI/CD results
+- [SLACK_SETUP.md](SLACK_SETUP.md) - Instructions for setting up Slack notifications
 
 ## ChangeLog
 
