@@ -42,3 +42,8 @@ EAE_Coding.zip
 
 # Windows zone identifier files
 *.Zone.Identifier
+
+# Python
+*.pyc
+__pycache__/
+.pytest_cache/

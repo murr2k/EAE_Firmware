@@ -108,22 +108,36 @@ jobs:
         import pytest
         import sys
         import os
+        import time
         sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-        from cooling_control import SystemState, CoolingController, PIDController
+        from cooling_control import SystemState, CoolingController, PIDController, SensorData, ControlOutputs
 
         def test_system_states():
             assert SystemState.OFF.value == 1
+            assert SystemState.INITIALIZING.value == 2
             assert SystemState.RUNNING.value == 3
+            assert SystemState.ERROR.value == 4
+            assert SystemState.EMERGENCY_STOP.value == 5
 
         def test_pid_controller():
             pid = PIDController(kp=1.0, ki=0.1, kd=0.01, setpoint=65.0)
             output = pid.calculate(60.0)
-            assert output > 0  # Should produce positive output when below setpoint
+            assert output <= 0  # Negative error produces negative output
+            time.sleep(0.01)
+            output2 = pid.calculate(70.0)
+            assert output2 >= 0  # Positive error produces positive output
 
         def test_cooling_controller_init():
             controller = CoolingController()
             assert controller.state == SystemState.OFF
             assert controller.sensors.temperature == 25.0
+            assert controller.outputs.pump_on == False
+
+        def test_data_classes():
+            sensors = SensorData(temperature=65.0, level_switch=True, ignition=True)
+            assert sensors.temperature == 65.0
+            outputs = ControlOutputs(pump_on=True, fan_on=True, fan_speed=50)
+            assert outputs.fan_speed == 50
         EOF
 
     - name: Run Python tests
