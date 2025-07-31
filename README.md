@@ -72,8 +72,12 @@ EAE_Firmware/
 ├── cooling_control.cpp     # Question 7 - C++ standalone implementation
 ├── CMakeLists.txt         # CMake build configuration
 ├── build.sh               # Build script for Linux/MSYS2
+├── test_cooling_control.py # Python unit tests
 ├── README.md              # This file
 ├── CHANGELOG.md           # Version history
+├── REVIEWER_QA.md         # Q&A for reviewers
+├── TEST_RESULTS.md        # Example test outputs
+├── CI_CD_TEST_RESULTS.md  # CI/CD pipeline test results
 └── .gitignore            # Git ignore file
 ```
 
@@ -167,6 +171,8 @@ g++ -std=c++17 cooling_control.cpp -o cooling_control -pthread
 - C++17 compatible compiler (GCC 7+, Clang 5+, MSVC 2017+)
 - POSIX threads support
 - Git (for Google Test download)
+- Python 3.8+ (for Python implementation)
+- pytest (optional, for Python tests)
 
 ### Build Instructions
 
@@ -218,6 +224,18 @@ Run with XML output for CI:
 ./build/eae_tests --gtest_output=xml:test_results.xml
 ```
 
+### Python Testing
+
+Run Python unit tests:
+```bash
+python -m pytest test_cooling_control.py -v
+```
+
+Run the Python implementation demo:
+```bash
+python3 cooling_control.py
+```
+
 ## CI/CD Pipeline
 
 This project features a comprehensive CI/CD pipeline using GitHub Actions that ensures code quality and reliability.
@@ -225,8 +243,8 @@ This project features a comprehensive CI/CD pipeline using GitHub Actions that e
 ### 🔄 Continuous Integration
 
 #### Multi-Platform Testing
-- **Operating Systems**: Ubuntu Latest, Ubuntu 20.04
-- **Compilers**: GCC 9/10/11, Clang 12
+- **Operating Systems**: Ubuntu Latest (24.04), Ubuntu 20.04
+- **Compilers**: GCC 9/10/11, Clang (defaults to 18)
 - **Python Versions**: 3.8, 3.9, 3.10, 3.11
 
 #### Code Quality Checks
@@ -272,7 +290,7 @@ Check the build status and coverage on the badges at the top of this README or v
 
 ### 🚀 Workflow Files
 
-- [`.github/workflows/ci.yml`](.github/workflows/ci.yml) - Main CI pipeline
+- [`.github/workflows/ci.yml`](.github/workflows/ci.yml) - Main CI pipeline (updated for Ubuntu 24.04)
 - [`.github/workflows/coverage.yml`](.github/workflows/coverage.yml) - Code coverage analysis
 - [`.github/workflows/release.yml`](.github/workflows/release.yml) - Automated releases
 - [`.github/dependabot.yml`](.github/dependabot.yml) - Dependency updates
@@ -317,6 +335,28 @@ We welcome contributions! Please follow these guidelines:
 - **Static Analysis**: Must pass cppcheck and clang-tidy
 - **Memory Safety**: Must pass sanitizer tests
 - **Test Coverage**: Aim for >80% coverage
+
+## Current Status
+
+### Build Status
+- **C++ Builds**: ✅ All passing (GCC 9/10/11, Clang)
+- **Python Tests**: ✅ All passing (Python 3.8-3.11)
+- **Static Analysis**: ✅ Passing
+- **Code Coverage**: ✅ Working and generating reports
+- **Documentation**: ✅ Doxygen generation working
+
+### Known Issues
+- **Issue #11**: GitHub Super Linter has some markdown formatting warnings
+- **Issue #13**: Sanitizer tests configuration needs adjustment
+
+See [Issues](https://github.com/murr2k/EAE_Firmware/issues) for feature requests and bug reports.
+
+## Additional Documentation
+
+- [REVIEWER_QA.md](REVIEWER_QA.md) - Anticipated Q&A for code reviewers
+- [TEST_RESULTS.md](TEST_RESULTS.md) - Example outputs from C++ and Python implementations
+- [CI_CD_TEST_RESULTS.md](CI_CD_TEST_RESULTS.md) - Detailed CI/CD pipeline test results
+- [WORKFLOW_FAILURE_ANALYSIS.md](WORKFLOW_FAILURE_ANALYSIS.md) - CI/CD troubleshooting guide
 
 ## ChangeLog
 
