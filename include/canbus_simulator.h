@@ -16,6 +16,7 @@
 #include <condition_variable>
 #include <queue>
 #include <chrono>
+#include <map>
 
 struct CANMessage {
     uint32_t id;
@@ -38,8 +39,8 @@ public:
     void registerHandler(uint32_t id, MessageHandler handler);
     
     // Diagnostic functions
-    uint64_t getTxCount() const { return txCount; }
-    uint64_t getRxCount() const { return rxCount; }
+    uint64_t getTxCount() const { return txCount_; }
+    uint64_t getRxCount() const { return rxCount_; }
     
 private:
     void receiveThread();

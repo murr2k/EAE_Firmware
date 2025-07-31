@@ -11,6 +11,7 @@
 #include <unordered_map>
 #include <string>
 #include <memory>
+#include <map>
 
 template<typename StateType, typename EventType>
 class StateMachine {

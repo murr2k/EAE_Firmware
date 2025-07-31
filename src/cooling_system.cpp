@@ -136,7 +136,7 @@ void CoolingSystem::setupStateMachine() {
     // Define transitions
     stateMachine_.addTransition({
         SystemState::OFF, SystemEvent::IGNITION_ON, SystemState::INITIALIZING,
-        [this](SystemEvent) { return levelOk_; },
+        [this](SystemEvent) { return levelOk_.load(); },
         nullptr
     });
     
@@ -162,7 +162,7 @@ void CoolingSystem::setupStateMachine() {
     
     stateMachine_.addTransition({
         SystemState::ERROR, SystemEvent::ERROR_CLEARED, SystemState::INITIALIZING,
-        [this](SystemEvent) { return ignition_; },
+        [this](SystemEvent) { return ignition_.load(); },
         nullptr
     });
     
