@@ -5,6 +5,8 @@
 
 This repository contains the solutions for the EAE Engineering Challenge - Electrical and Controls section, specifically Questions 7 and 7.1.
 
+⚠️ Note to Reviewer: This submission includes more than Section 7 & 7.1, to demonstrate modular, testable design. Please feel free to skip additional features unless of interest. The core answers are in cooling_control.cpp and src/. Everything is open-book, per instructions.
+
 ## Table of Contents
 - [Overview](#overview)
 - [Features](#features)
