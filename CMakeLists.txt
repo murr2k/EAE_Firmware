@@ -3,7 +3,7 @@
 # Date: July 31, 2025
 
 cmake_minimum_required(VERSION 3.14)
-project(EAE_Firmware VERSION 1.0.0)
+project(EAE_Firmware VERSION 1.1.0)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)

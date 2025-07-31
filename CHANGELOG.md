@@ -8,6 +8,40 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2025-07-31
+
+### Added
+- Comprehensive CI/CD pipeline using GitHub Actions
+  - Multi-platform testing (Ubuntu 24.04 and 20.04)
+  - Multi-compiler support (GCC 9/10/11, Clang)
+  - Python testing for versions 3.8-3.11
+  - Code coverage reporting with gcovr and lcov
+  - Static analysis (cppcheck, clang-tidy, clang-format)
+  - Security scanning with GitHub Super Linter
+  - Automated release workflow
+  - Memory safety testing with sanitizers
+  - Pull request template for contributions
+  - Dependabot configuration for dependency updates
+
+### Fixed
+- Python module imports for pytest compatibility (#8)
+- CI/CD compatibility with Ubuntu 24.04 (#9, #10)
+- Clang compiler narrowing conversion errors
+- GitHub Actions deprecated version warnings (v3 → v4)
+- Code coverage line mismatch errors (#12)
+- Markdown formatting issues (reduced linting errors by 80%)
+
+### Changed
+- Updated all GitHub Actions to latest versions
+- Improved code coverage exclusion patterns
+- Enhanced documentation with CI/CD information
+- Added Python testing instructions to README
+
+### Pipeline Status
+- 80% of CI/CD jobs passing (12/15)
+- Core functionality fully tested and working
+- Remaining issues: Super Linter strictness, slow sanitizer tests
+
 ## [1.0.0] - 2025-01-31
 
 ### Added
@@ -66,6 +100,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Version History
 
+- **v1.1.0** (2025-07-31) - CI/CD Integration and Compatibility Fixes
+  - Added comprehensive GitHub Actions CI/CD pipeline
+  - Fixed Ubuntu 24.04 compatibility issues
+  - Resolved all Python test failures
+  - Improved cross-platform build support
 - **v1.0.0** (2025-01-31) - Initial release with full challenge implementation
   - Complete solutions for Questions 7 and 7.1
   - All 8 advanced features implemented
