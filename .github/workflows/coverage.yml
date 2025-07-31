@@ -40,11 +40,13 @@ jobs:
         gcovr -r .. --html --html-details -o coverage.html \
           --exclude '.*/tests/.*' \
           --exclude '.*/build.*/.*' \
-          --exclude '.*/include/.*'
+          --exclude '.*/include/.*' \
+          --exclude '.*/external/.*' \
+          --exclude '.*/_deps/.*'
         
         # Also generate lcov report with error suppression
         lcov --capture --directory . --output-file coverage.info --ignore-errors mismatch
-        lcov --remove coverage.info '/usr/*' '*/tests/*' '*/build*/*' --output-file coverage.info --ignore-errors mismatch
+        lcov --remove coverage.info '/usr/*' '*/tests/*' '*/build*/*' '*/_deps/*' --output-file coverage.info --ignore-errors mismatch
         lcov --list coverage.info
 
     - name: Upload coverage reports
