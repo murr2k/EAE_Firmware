@@ -1,0 +1,44 @@
+# Build directories
+build/
+cmake-build-*/
+
+# Compiled files
+*.o
+*.a
+*.so
+*.exe
+eae_firmware
+eae_tests
+cooling_control
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# CMake files
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+compile_commands.json
+
+# Test output
+Testing/
+*.xml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Submission files
+EAE_Coding/
+EAE_Coding.zip
+
+# Tool-generated files
+.claude-flow/metrics/
+.hive-mind/
+
+# Windows zone identifier files
+*.Zone.Identifier
