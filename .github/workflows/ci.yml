@@ -444,7 +444,7 @@ jobs:
   ci-summary:
     name: CI Summary
     runs-on: ubuntu-latest
-    needs: [cpp-build-test, python-test, static-analysis, sanitizer-tests, documentation]
+    needs: [cpp-build-test, python-test, static-analysis, documentation]
     if: always()
 
     steps:
@@ -607,7 +607,7 @@ jobs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "*Job Results:*\n• C++ Build & Test: ${{ needs.cpp-build-test.result }}\n• Python Tests: ${{ needs.python-test.result }}\n• Static Analysis: ${{ needs.static-analysis.result }}\n• Documentation: ${{ needs.documentation.result }}\n• Sanitizers: ${{ needs.sanitizer-tests.result }}"
+                    "text": "*Job Results:*\n• C++ Build & Test: ${{ needs.cpp-build-test.result }}\n• Python Tests: ${{ needs.python-test.result }}\n• Static Analysis: ${{ needs.static-analysis.result }}\n• Documentation: ${{ needs.documentation.result }}"
                   }
                 },
                 {

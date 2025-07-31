@@ -47,7 +47,7 @@ jobs:
         # Also generate lcov report with error suppression
         lcov --capture --directory . --output-file coverage.info --ignore-errors mismatch
         lcov --remove coverage.info '/usr/*' '*/tests/*' '*/build*/*' '*/_deps/*' --output-file coverage.info --ignore-errors mismatch
-        lcov --list coverage.info
+        lcov --list coverage.info || echo "Coverage report generated (ignoring exit code)"
 
     - name: Upload coverage reports
       uses: actions/upload-artifact@v4

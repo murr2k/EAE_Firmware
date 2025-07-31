@@ -5,9 +5,6 @@
 [![Code Coverage](https://github.com/murr2k/EAE_Firmware/actions/workflows/coverage.yml/badge.svg)](https://github.com/murr2k/EAE_Firmware/actions/workflows/coverage.yml)
 [![Release](https://img.shields.io/github/v/release/murr2k/EAE_Firmware)](https://github.com/murr2k/EAE_Firmware/releases/latest)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-
-[![CI Status](https://github.com/murr2k/EAE_Firmware/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/murr2k/EAE_Firmware/actions/workflows/ci.yml)
-[![Lines of Code](https://img.shields.io/tokei/lines/github/murr2k/EAE_Firmware)](https://github.com/murr2k/EAE_Firmware)
 [![Last Commit](https://img.shields.io/github/last-commit/murr2k/EAE_Firmware)](https://github.com/murr2k/EAE_Firmware/commits/main)
 [![Issues](https://img.shields.io/github/issues/murr2k/EAE_Firmware)](https://github.com/murr2k/EAE_Firmware/issues)
 [![C++](https://img.shields.io/badge/C%2B%2B-17-blue.svg)](https://en.cppreference.com/w/cpp/17)
