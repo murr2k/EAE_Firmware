@@ -1,5 +1,10 @@
 # EAE Firmware Challenge Submission
 
+[![CI/CD Pipeline](https://github.com/murr2k/EAE_Firmware/actions/workflows/ci.yml/badge.svg)](https://github.com/murr2k/EAE_Firmware/actions/workflows/ci.yml)
+[![Code Coverage](https://github.com/murr2k/EAE_Firmware/actions/workflows/coverage.yml/badge.svg)](https://github.com/murr2k/EAE_Firmware/actions/workflows/coverage.yml)
+[![Release](https://img.shields.io/github/v/release/murr2k/EAE_Firmware)](https://github.com/murr2k/EAE_Firmware/releases/latest)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 **Author:** Murray Kopit  
 **Date:** July 31, 2025
 

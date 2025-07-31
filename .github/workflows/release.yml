@@ -1,0 +1,109 @@
+name: Release Workflow
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: write
+
+jobs:
+  create-release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    - name: Setup build environment
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y cmake g++ zip
+
+    - name: Get version from tag
+      id: version
+      run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+    - name: Build project
+      run: |
+        ./build.sh
+        
+    - name: Run tests
+      run: |
+        cd build
+        ./eae_tests
+        
+    - name: Create submission package
+      run: |
+        # Already exists from main build
+        ls -la EAE_Coding.zip
+
+    - name: Create release package
+      run: |
+        mkdir -p release/EAE_Firmware-${{ steps.version.outputs.VERSION }}
+        
+        # Copy binaries
+        cp build/eae_firmware release/EAE_Firmware-${{ steps.version.outputs.VERSION }}/
+        cp build/eae_tests release/EAE_Firmware-${{ steps.version.outputs.VERSION }}/
+        
+        # Copy source files
+        cp -r src include tests release/EAE_Firmware-${{ steps.version.outputs.VERSION }}/
+        
+        # Copy documentation
+        cp README.md CHANGELOG.md REVIEWER_QA.md TEST_RESULTS.md release/EAE_Firmware-${{ steps.version.outputs.VERSION }}/
+        cp CMakeLists.txt build.sh release/EAE_Firmware-${{ steps.version.outputs.VERSION }}/
+        
+        # Copy Python implementations
+        cp cooling_control.py cooling_control.cpp release/EAE_Firmware-${{ steps.version.outputs.VERSION }}/
+        
+        # Create archives
+        cd release
+        tar -czf EAE_Firmware-${{ steps.version.outputs.VERSION }}.tar.gz EAE_Firmware-${{ steps.version.outputs.VERSION }}/
+        zip -r EAE_Firmware-${{ steps.version.outputs.VERSION }}.zip EAE_Firmware-${{ steps.version.outputs.VERSION }}/
+
+    - name: Generate release notes
+      id: release_notes
+      run: |
+        cat > release_notes.md << 'EOF'
+        ## Release ${{ steps.version.outputs.VERSION }}
+        
+        ### 📦 Downloads
+        - `EAE_Firmware-${{ steps.version.outputs.VERSION }}.zip` - Complete project package
+        - `EAE_Firmware-${{ steps.version.outputs.VERSION }}.tar.gz` - Complete project package (tar.gz)
+        - `EAE_Coding.zip` - Submission package for EAE Challenge
+        
+        ### ✅ Build Status
+        - All tests passing
+        - Built with CMake ${{ env.CMAKE_VERSION }}
+        - Tested on Ubuntu Latest
+        
+        ### 📋 What's Changed
+        See [CHANGELOG.md](CHANGELOG.md) for detailed changes.
+        
+        ### 🚀 Quick Start
+        ```bash
+        # Extract and build
+        tar -xzf EAE_Firmware-${{ steps.version.outputs.VERSION }}.tar.gz
+        cd EAE_Firmware-${{ steps.version.outputs.VERSION }}
+        ./build.sh
+        
+        # Run
+        ./build/eae_firmware --help
+        ```
+        EOF
+
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          release/*.zip
+          release/*.tar.gz
+          EAE_Coding.zip
+        body_path: release_notes.md
+        draft: false
+        prerelease: false
+        generate_release_notes: true
