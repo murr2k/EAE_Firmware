@@ -279,6 +279,8 @@ This project features a comprehensive CI/CD pipeline using GitHub Actions that e
 - **Parallel Execution**: Tests run concurrently for faster feedback
 - **Matrix Strategy**: Multiple compiler/OS combinations tested
 - **Artifact Management**: Test results and coverage reports preserved
+- **Comprehensive Results Collection**: JSON, CSV, and XML formats for analysis
+- **Historical Tracking**: Automatic persistence of test results to repository
 - **Dependency Management**: Automated updates via Dependabot
 - **Pull Request Template**: Standardized contribution process
 
@@ -357,6 +359,7 @@ See [Issues](https://github.com/murr2k/EAE_Firmware/issues) for feature requests
 - [TEST_RESULTS.md](TEST_RESULTS.md) - Example outputs from C++ and Python implementations
 - [CI_CD_TEST_RESULTS.md](CI_CD_TEST_RESULTS.md) - Detailed CI/CD pipeline test results
 - [WORKFLOW_FAILURE_ANALYSIS.md](WORKFLOW_FAILURE_ANALYSIS.md) - CI/CD troubleshooting guide
+- [CI_RESULTS_GUIDE.md](CI_RESULTS_GUIDE.md) - Guide to accessing and analyzing CI/CD results
 
 ## ChangeLog
 

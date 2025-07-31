@@ -57,19 +57,96 @@ jobs:
           -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 
     - name: Build
-      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+      id: build
+      run: |
+        BUILD_START=$(date +%s)
+        cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+        BUILD_END=$(date +%s)
+        echo "build_time=$((BUILD_END - BUILD_START))" >> $GITHUB_OUTPUT
 
     - name: Run unit tests
+      id: test
       working-directory: ${{github.workspace}}/build
       run: |
         ./eae_tests --gtest_output=xml:test_results.xml
         
-    - name: Upload test results
+    - name: Collect comprehensive test results
+      if: always()
+      run: |
+        # Create results directory
+        mkdir -p ci-results
+        
+        # Generate timestamp
+        TIMESTAMP=$(date -u +"%Y-%m-%d_%H-%M-%S")
+        
+        # Get test summary
+        cd ${{github.workspace}}/build
+        TEST_SUMMARY=$(./eae_tests --gtest_brief=1 2>&1 | tail -20 || echo "Test execution failed")
+        
+        # Create detailed results file
+        cat > "${{github.workspace}}/ci-results/test-run-${TIMESTAMP}.json" << EOF
+        {
+          "metadata": {
+            "timestamp": "${TIMESTAMP}",
+            "commit": "${{ github.sha }}",
+            "branch": "${{ github.ref_name }}",
+            "run_id": "${{ github.run_id }}",
+            "run_number": "${{ github.run_number }}",
+            "event": "${{ github.event_name }}",
+            "actor": "${{ github.actor }}"
+          },
+          "environment": {
+            "os": "${{ matrix.os }}",
+            "compiler": "${{ matrix.compiler.cxx }}",
+            "cmake_version": "$(cmake --version | head -1)",
+            "gcc_version": "$(gcc --version 2>/dev/null | head -1 || echo 'N/A')",
+            "clang_version": "$(clang --version 2>/dev/null | head -1 || echo 'N/A')"
+          },
+          "results": {
+            "build_status": "${{ steps.build.outcome }}",
+            "build_time_seconds": "${{ steps.build.outputs.build_time }}",
+            "test_status": "${{ steps.test.outcome }}",
+            "test_summary": "${TEST_SUMMARY}"
+          }
+        }
+        EOF
+        
+        # Also create a simple CSV for trending
+        echo "timestamp,commit,os,compiler,build_status,test_status" >> ${{github.workspace}}/ci-results/history.csv
+        echo "${TIMESTAMP},${{ github.sha }},${{ matrix.os }},${{ matrix.compiler.cxx }},${{ steps.build.outcome }},${{ steps.test.outcome }}" >> ${{github.workspace}}/ci-results/history.csv
+        
+        # Copy test results XML
+        cp test_results.xml ${{github.workspace}}/ci-results/
+        
+        # Create markdown summary
+        cat > "${{github.workspace}}/ci-results/summary-${TIMESTAMP}.md" << EOF
+        # Test Run Summary
+        
+        **Date**: ${TIMESTAMP}  
+        **Commit**: ${{ github.sha }}  
+        **Branch**: ${{ github.ref_name }}  
+        **OS**: ${{ matrix.os }}  
+        **Compiler**: ${{ matrix.compiler.cxx }}  
+        
+        ## Results
+        - Build Status: ${{ steps.build.outcome }}
+        - Test Status: ${{ steps.test.outcome }}
+        
+        ## Test Output
+        \`\`\`
+        ${TEST_SUMMARY}
+        \`\`\`
+        EOF
+        
+    - name: Upload comprehensive test results
       uses: actions/upload-artifact@v4
       if: always()
       with:
         name: test-results-${{ matrix.os }}-${{ matrix.compiler.cxx }}
-        path: build/test_results.xml
+        path: |
+          ci-results/
+          build/test_results.xml
+        retention-days: 90
 
     - name: Run main application test
       working-directory: ${{github.workspace}}/build
@@ -146,8 +223,46 @@ jobs:
         EOF
 
     - name: Run Python tests
+      id: pytest
       run: |
-        pytest test_cooling.py -v
+        pytest test_cooling.py -v --junit-xml=pytest_results.xml
+        
+    - name: Collect Python test results
+      if: always()
+      run: |
+        # Create results directory
+        mkdir -p ci-results
+        
+        # Generate timestamp
+        TIMESTAMP=$(date -u +"%Y-%m-%d_%H-%M-%S")
+        
+        # Create Python test results file
+        cat > "ci-results/python-test-run-${TIMESTAMP}.json" << EOF
+        {
+          "metadata": {
+            "timestamp": "${TIMESTAMP}",
+            "commit": "${{ github.sha }}",
+            "branch": "${{ github.ref_name }}",
+            "run_id": "${{ github.run_id }}",
+            "python_version": "${{ matrix.python-version }}"
+          },
+          "results": {
+            "test_status": "${{ steps.pytest.outcome }}",
+            "python_version": "$(python --version)"
+          }
+        }
+        EOF
+        
+        # Copy pytest results
+        [ -f pytest_results.xml ] && cp pytest_results.xml ci-results/
+        
+    - name: Upload Python test results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: python-test-results-${{ matrix.python-version }}
+        path: ci-results/
+        retention-days: 90
 
   # Static Analysis Job
   static-analysis:
@@ -333,10 +448,20 @@ jobs:
     if: always()
 
     steps:
-    - name: Check build status
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Download all test results
+      uses: actions/download-artifact@v4
+      with:
+        pattern: test-results-*
+        path: all-test-results
+        
+    - name: Generate consolidated report
       run: |
         echo "## CI/CD Pipeline Summary" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### Overall Status" >> $GITHUB_STEP_SUMMARY
         echo "| Job | Status |" >> $GITHUB_STEP_SUMMARY
         echo "|-----|--------|" >> $GITHUB_STEP_SUMMARY
         echo "| C++ Build & Test | ${{ needs.cpp-build-test.result }} |" >> $GITHUB_STEP_SUMMARY
@@ -344,3 +469,69 @@ jobs:
         echo "| Static Analysis | ${{ needs.static-analysis.result }} |" >> $GITHUB_STEP_SUMMARY
         echo "| Sanitizer Tests | ${{ needs.sanitizer-tests.result }} |" >> $GITHUB_STEP_SUMMARY
         echo "| Documentation | ${{ needs.documentation.result }} |" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        
+        # Aggregate test results
+        echo "### Test Results by Platform" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        
+        # Process each test result directory
+        for dir in all-test-results/test-results-*/; do
+          if [ -d "$dir" ] && [ -f "$dir/ci-results/history.csv" ]; then
+            echo "#### $(basename $dir)" >> $GITHUB_STEP_SUMMARY
+            echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+            tail -1 "$dir/ci-results/history.csv" >> $GITHUB_STEP_SUMMARY
+            echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          fi
+        done
+        
+        # Create aggregated results file
+        mkdir -p aggregated-results
+        echo "# CI/CD Run Report - ${{ github.run_number }}" > aggregated-results/run-report.md
+        echo "Generated: $(date -u)" >> aggregated-results/run-report.md
+        echo "Commit: ${{ github.sha }}" >> aggregated-results/run-report.md
+        echo "" >> aggregated-results/run-report.md
+        
+        # Combine all CSV files
+        echo "timestamp,commit,os,compiler,build_status,test_status" > aggregated-results/all-results.csv
+        find all-test-results -name "history.csv" -exec tail -n +2 {} \; >> aggregated-results/all-results.csv
+        
+    - name: Upload aggregated results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: ci-aggregated-results-run-${{ github.run_number }}
+        path: aggregated-results/
+        retention-days: 90
+        
+    # Optional: Persist results to repository (only on main branch)
+    - name: Persist results to repository
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      run: |
+        # Configure git
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        
+        # Create .ci-results directory if it doesn't exist
+        mkdir -p .ci-results
+        
+        # Append to historical results file
+        echo "---" >> .ci-results/test-history.md
+        echo "**Date**: $(date -u)" >> .ci-results/test-history.md
+        echo "**Commit**: ${{ github.sha }}" >> .ci-results/test-history.md
+        echo "**Run**: ${{ github.run_number }}" >> .ci-results/test-history.md
+        echo "" >> .ci-results/test-history.md
+        
+        # Add summary
+        cat aggregated-results/run-report.md >> .ci-results/test-history.md
+        echo "" >> .ci-results/test-history.md
+        
+        # Keep only last 50 runs in the markdown file to prevent it from growing too large
+        # This creates a temporary file with markers every 50 entries
+        awk '/^---$/{count++} count<=50' .ci-results/test-history.md > .ci-results/test-history.tmp
+        mv .ci-results/test-history.tmp .ci-results/test-history.md
+        
+        # Commit if there are changes
+        git add .ci-results/
+        git diff --staged --quiet || git commit -m "ci: update test results [skip ci]"
+        git push || echo "Push failed - likely due to concurrent runs"
