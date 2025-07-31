@@ -21,7 +21,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, ubuntu-20.04]
+        os: [ubuntu-latest]
         compiler: 
           - { cc: gcc-9, cxx: g++-9 }
           - { cc: gcc-10, cxx: g++-10 }
