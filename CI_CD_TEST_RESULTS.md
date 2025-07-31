@@ -5,38 +5,72 @@
 ## GitHub Actions CI/CD Status
 
 ### Pipeline Status Summary
-- **Latest Run ID:** 16660252761
-- **Trigger:** Push to main branch (docs: Add CI/CD pipeline documentation to README)
-- **Status:** Failed (due to deprecated actions/upload-artifact@v3)
+- **Latest Run ID:** 16660383749
+- **Trigger:** Push to main branch (fix: Update GitHub Actions to fix deprecated versions and compilation errors)
+- **Status:** Running (with partial success)
+- **Run URL:** https://github.com/murr2k/EAE_Firmware/actions/runs/16660383749
 
-### Workflow Results
+### Workflow Results (After Fixes)
 
 #### Python Tests
-- **Python 3.8:** ❌ Failed (exit code 1)
-- **Python 3.9:** ❌ Failed (exit code 1)
-- **Python 3.10:** ❌ Failed (exit code 1)
-- **Python 3.11:** ❌ Failed (exit code 1)
+- **Python 3.8:** ❌ Failed (pytest issue)
+- **Python 3.9:** ❌ Failed (pytest issue)
+- **Python 3.10:** ❌ Failed (pytest issue)
+- **Python 3.11:** ❌ Failed (pytest issue - strategy canceled)
 
 #### C++ Build and Test Matrix
-- **ubuntu-latest, gcc-9:** ❌ Failed (deprecated upload-artifact)
-- **ubuntu-latest, gcc-10:** ❌ Failed (deprecated upload-artifact)
-- **ubuntu-latest, gcc-11:** ❌ Failed (deprecated upload-artifact)
-- **ubuntu-latest, clang-12:** ❌ Failed (deprecated upload-artifact)
+- **ubuntu-latest, gcc-9:** ✅ Success (All 16 tests passed)
+- **ubuntu-latest, gcc-10:** ✅ Success (All 16 tests passed)
+- **ubuntu-latest, gcc-11:** ✅ Success (All 16 tests passed)
+- **ubuntu-latest, clang-12:** ❌ Failed (package installation issue)
 - **ubuntu-20.04, gcc-9:** ⏳ In Progress
 - **ubuntu-20.04, gcc-10:** ⏳ In Progress
 - **ubuntu-20.04, clang-12:** ⏳ In Progress
 
 #### Additional Workflows
-- **Static Analysis:** ❌ Failed (deprecated upload-artifact)
-- **Documentation:** ❌ Failed (deprecated upload-artifact)
-- **Security Scan:** ❌ Failed (exit code 2)
-- **Sanitizer Tests:** ❌ Failed (exit code 2)
-- **Code Coverage:** ❌ Failed (build issue)
+- **Static Analysis:** ❌ Failed (package installation issue)
+- **Documentation:** ✅ Success (Doxygen docs generated)
+- **Security Scan:** ❌ Failed (super-linter exit code 2)
+- **Sanitizer Tests:** ⏳ In Progress
+- **Code Coverage:** ❌ Failed (separate run)
 
-### Issues Identified
-1. All workflows using `actions/upload-artifact@v3` are failing due to deprecation
-2. Python tests failing due to missing test file creation step
-3. Sanitizer tests failing during build phase
+### Test Results from Successful C++ Builds
+
+From the downloaded test artifact (test_results.xml), all 16 tests passed:
+
+```xml
+<testsuites tests="16" failures="0" disabled="0" errors="0" time="2.033">
+  <testsuite name="PIDControllerTest" tests="5" failures="0">
+    ✅ InitialState
+    ✅ ProportionalControl
+    ✅ OutputClamping
+    ✅ Reset
+    ✅ SetpointChange
+  </testsuite>
+  <testsuite name="StateMachineTest" tests="6" failures="0">
+    ✅ InitialState
+    ✅ SimpleTransition
+    ✅ InvalidTransition
+    ✅ GuardCondition
+    ✅ TransitionAction
+    ✅ MultipleTransitions
+  </testsuite>
+  <testsuite name="CANBusTest" tests="5" failures="0">
+    ✅ StartStop (361ms)
+    ✅ SendMessage (208ms)
+    ✅ InvalidMessageLength
+    ✅ MessageHandler (1081ms)
+    ✅ MultipleHandlers (382ms)
+  </testsuite>
+</testsuites>
+```
+
+### Issues Fixed
+1. ✅ Updated all GitHub Actions to v4/v5 (fixed deprecation errors)
+2. ✅ Fixed C++ compilation errors (missing headers, atomic copies)
+3. ✅ C++ builds and tests now passing on multiple compiler configurations
+4. ❌ Python tests still failing (need to fix import issues)
+5. ❌ Some Ubuntu package installation issues for clang-12
 
 ## Local Test Results
 
