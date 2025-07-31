@@ -239,11 +239,11 @@ void CoolingSystem::handleTemperature(double temp) {
 
 void CoolingSystem::updateOutputs() {
     // Send pump control
-    uint8_t pumpData[1] = { pumpOn_ ? 1 : 0 };
+    uint8_t pumpData[1] = { static_cast<uint8_t>(pumpOn_ ? 1 : 0) };
     canbus_->sendMessage(config_.pumpControlId, pumpData, 1);
     
     // Send fan control
-    uint8_t fanData[2] = { fanOn_ ? 1 : 0, static_cast<uint8_t>(fanSpeed_) };
+    uint8_t fanData[2] = { static_cast<uint8_t>(fanOn_ ? 1 : 0), static_cast<uint8_t>(fanSpeed_) };
     canbus_->sendMessage(config_.fanControlId, fanData, 2);
 }
 
