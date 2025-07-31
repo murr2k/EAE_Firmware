@@ -22,7 +22,7 @@ enum class SystemState {
 };
 
 struct SensorData {
-    float temperature;      // Celsius
+    float temperature;     // Celsius
     bool levelSwitch;      // True = OK, False = Low
     bool ignition;         // True = ON, False = OFF
 };
