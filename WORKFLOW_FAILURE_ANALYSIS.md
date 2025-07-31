@@ -1,3 +1,71 @@
+# CI/CD Workflow Failure Analysis - UPDATE
+
+**Date:** July 31, 2025 (Updated)  
+**Pipeline Run:** https://github.com/murr2k/EAE_Firmware/actions/runs/16661191023
+
+## Current Status After Fixes
+
+### ✅ Successfully Fixed Issues:
+1. **Clang Installation** - FIXED
+   - Changed from `clang-12` to `clang` (version-agnostic)
+   - All clang builds now passing on both Ubuntu 24.04 and 20.04
+   
+2. **Static Analysis Tools** - FIXED
+   - Changed to version-agnostic packages (`clang-tidy`, `clang-format`)
+   - Static analysis job now passing in ~25 seconds
+   
+3. **Code Coverage** - FIXED
+   - Added `--ignore-errors mismatch` to lcov commands
+   - Coverage workflow has been passing consistently
+   
+4. **Python Tests** - FIXED
+   - Fixed import issues in test file
+   - All Python versions (3.8-3.11) now passing
+
+5. **Markdown Linting** - PARTIALLY FIXED
+   - Fixed trailing punctuation in headings
+   - Fixed duplicate headings
+   - Added language specifiers to code blocks
+   - Errors reduced from many to 5
+
+### ❌ Remaining Issues:
+
+1. **Security Scan (Super Linter)** - STILL FAILING
+   - C++ linting errors: 14 (unchanged)
+   - Markdown linting errors: 5 (reduced from many)
+   - Likely due to code formatting standards not matching Super Linter defaults
+
+2. **Sanitizer Tests** - SLOW/HANGING
+   - Tests take very long or timeout
+   - May need configuration adjustments
+
+3. **Ubuntu 20.04 Builds** - SLOW
+   - All ubuntu-20.04 jobs are much slower than ubuntu-latest
+   - Consider removing ubuntu-20.04 from matrix if not needed
+
+## Summary of Current Pipeline Health:
+- **Passing:** 12/15 jobs (80%)
+- **Failing:** 1 job (Security Scan)
+- **Slow/Problematic:** 2 jobs (Sanitizer Tests, ubuntu-20.04 builds)
+
+## Recommended Next Steps:
+
+### Option 1: Configure Super Linter (Recommended)
+Add `.github/linters/.markdown-lint.yml`:
+```yaml
+# Disable specific rules that are too strict
+MD013: false  # Line length
+MD024: false  # Multiple headers with same content
+MD026: false  # Trailing punctuation in headers
+```
+
+### Option 2: Disable Super Linter Temporarily
+Set it to warning mode or disable until code style can be standardized.
+
+### Option 3: Run clang-format
+Run clang-format on all C++ files to match expected style.
+
+---
 # CI/CD Workflow Failure Analysis
 
 **Date:** July 31, 2025  
