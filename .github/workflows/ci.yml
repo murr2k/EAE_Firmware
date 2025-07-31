@@ -25,7 +25,7 @@ jobs:
         compiler: 
           - { cc: gcc-9, cxx: g++-9 }
           - { cc: gcc-10, cxx: g++-10 }
-          - { cc: clang-12, cxx: clang++-12 }
+          - { cc: clang, cxx: clang++ }
         include:
           - os: ubuntu-latest
             compiler: { cc: gcc-11, cxx: g++-11 }
@@ -156,7 +156,7 @@ jobs:
     - name: Install analysis tools
       run: |
         sudo apt-get update
-        sudo apt-get install -y cppcheck clang-tidy-12 clang-format-12
+        sudo apt-get install -y cppcheck clang-tidy clang-format
 
     - name: Run cppcheck
       run: |
@@ -170,7 +170,7 @@ jobs:
     - name: Check code formatting
       run: |
         find . -name '*.cpp' -o -name '*.h' | grep -E '(src/|include/)' | \
-        xargs clang-format-12 --dry-run -Werror 2>&1 | tee format_check.txt || true
+        xargs clang-format --dry-run -Werror 2>&1 | tee format_check.txt || true
 
     - name: Upload analysis results
       uses: actions/upload-artifact@v4

@@ -50,7 +50,7 @@ This project implements a complete cooling system controller for an electric veh
 
 ## Project Structure
 
-```
+```text
 EAE_Firmware/
 ├── src/                      # Source files
 │   ├── main.cpp             # Main application entry point
@@ -295,7 +295,7 @@ We welcome contributions! Please follow these guidelines:
 1. **Fork the Repository**: Create your own fork to work on
 2. **Create a Feature Branch**: `git checkout -b feature/amazing-feature`
 3. **Write Tests**: Ensure your changes are covered by tests
-4. **Run CI Locally**: 
+4. **Run CI Locally**:
    ```bash
    ./build.sh
    ./build/eae_tests

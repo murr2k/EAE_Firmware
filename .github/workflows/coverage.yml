@@ -42,9 +42,9 @@ jobs:
           --exclude '.*/build.*/.*' \
           --exclude '.*/include/.*'
         
-        # Also generate lcov report
-        lcov --capture --directory . --output-file coverage.info
-        lcov --remove coverage.info '/usr/*' '*/tests/*' '*/build*/*' --output-file coverage.info
+        # Also generate lcov report with error suppression
+        lcov --capture --directory . --output-file coverage.info --ignore-errors mismatch
+        lcov --remove coverage.info '/usr/*' '*/tests/*' '*/build*/*' --output-file coverage.info --ignore-errors mismatch
         lcov --list coverage.info
 
     - name: Upload coverage reports
