@@ -20,7 +20,9 @@ This repository contains the solutions for the EAE Engineering Challenge - Elect
 - [Question 7.1: Advanced Firmware Features](#question-71-advanced-firmware-features)
 - [Building and Running](#building-and-running)
 - [Testing](#testing)
+- [CI/CD Pipeline](#cicd-pipeline)
 - [Design Decisions](#design-decisions)
+- [Contributing](#contributing)
 - [ChangeLog](#changelog)
 
 ## Overview
@@ -211,6 +213,71 @@ Run specific test suite:
 ./build/eae_tests --gtest_filter=PIDControllerTest.*
 ```
 
+Run with XML output for CI:
+```bash
+./build/eae_tests --gtest_output=xml:test_results.xml
+```
+
+## CI/CD Pipeline
+
+This project features a comprehensive CI/CD pipeline using GitHub Actions that ensures code quality and reliability.
+
+### 🔄 Continuous Integration
+
+#### Multi-Platform Testing
+- **Operating Systems**: Ubuntu Latest, Ubuntu 20.04
+- **Compilers**: GCC 9/10/11, Clang 12
+- **Python Versions**: 3.8, 3.9, 3.10, 3.11
+
+#### Code Quality Checks
+- **Static Analysis**: cppcheck, clang-tidy
+- **Code Formatting**: clang-format verification
+- **Memory Safety**: AddressSanitizer, ThreadSanitizer, Valgrind
+- **Security Scanning**: GitHub Super Linter
+- **Code Coverage**: gcovr and lcov with HTML reports
+
+#### Automated Testing
+- Unit test execution on every push
+- Python implementation testing
+- Memory leak detection
+- Thread safety verification
+- Test result artifact upload
+
+### 📦 Continuous Delivery
+
+#### Automated Releases
+- Triggers on version tags (v*.*.\*)
+- Builds release packages automatically
+- Creates GitHub releases with artifacts
+- Generates release notes from commits
+
+#### Documentation
+- Automated Doxygen generation
+- API documentation updates
+- Coverage report generation
+
+### 🛡️ Pipeline Features
+
+- **Parallel Execution**: Tests run concurrently for faster feedback
+- **Matrix Strategy**: Multiple compiler/OS combinations tested
+- **Artifact Management**: Test results and coverage reports preserved
+- **Dependency Management**: Automated updates via Dependabot
+- **Pull Request Template**: Standardized contribution process
+
+### 📊 Status Monitoring
+
+Check the build status and coverage on the badges at the top of this README or visit:
+- [Actions Tab](https://github.com/murr2k/EAE_Firmware/actions) - View all workflow runs
+- [Pull Requests](https://github.com/murr2k/EAE_Firmware/pulls) - See PR checks in action
+
+### 🚀 Workflow Files
+
+- [`.github/workflows/ci.yml`](.github/workflows/ci.yml) - Main CI pipeline
+- [`.github/workflows/coverage.yml`](.github/workflows/coverage.yml) - Code coverage analysis
+- [`.github/workflows/release.yml`](.github/workflows/release.yml) - Automated releases
+- [`.github/dependabot.yml`](.github/dependabot.yml) - Dependency updates
+- [`.github/pull_request_template.md`](.github/pull_request_template.md) - PR template
+
 ## Design Decisions
 
 1. **Modular Architecture**: Each component (CAN, PID, State Machine) is independently testable
@@ -219,6 +286,37 @@ Run specific test suite:
 4. **Simulated Hardware**: CANBUS simulation enables testing without physical hardware
 5. **Safety First**: Multiple layers of protection including timeouts and emergency states
 6. **Real-Time Performance**: 10Hz control loop suitable for thermal systems
+7. **CI/CD Integration**: Automated quality assurance from development to deployment
+
+## Contributing
+
+We welcome contributions! Please follow these guidelines:
+
+1. **Fork the Repository**: Create your own fork to work on
+2. **Create a Feature Branch**: `git checkout -b feature/amazing-feature`
+3. **Write Tests**: Ensure your changes are covered by tests
+4. **Run CI Locally**: 
+   ```bash
+   ./build.sh
+   ./build/eae_tests
+   ```
+5. **Submit a Pull Request**: Use the PR template and ensure all checks pass
+
+### Development Workflow
+
+1. The CI pipeline will automatically run when you push to your fork
+2. All tests must pass before merging
+3. Code coverage should not decrease
+4. Follow the existing code style (enforced by clang-format)
+5. Update documentation as needed
+
+### Code Quality Standards
+
+- **C++ Standard**: C++17
+- **Style Guide**: Enforced by clang-format
+- **Static Analysis**: Must pass cppcheck and clang-tidy
+- **Memory Safety**: Must pass sanitizer tests
+- **Test Coverage**: Aim for >80% coverage
 
 ## ChangeLog
 
