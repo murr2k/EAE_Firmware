@@ -17,16 +17,16 @@ This page addresses common technical questions about the EAE Firmware implementa
 
 **A:** The current PID constants were selected through a combination of theoretical analysis and empirical testing:
 
-#### Selection Process:
+#### Selection Process
 1. **Initial Estimation**: Started with Ziegler-Nichols method estimates based on typical thermal system response
 2. **Simulation**: Used MATLAB/Simulink to model the thermal system and refine values
-3. **Empirical Tuning**: Fine-tuned based on:
+3. **Empirical Tuning**: Fine-tuned based on
    - Rise time: Target < 30 seconds to reach 90% of setpoint
    - Overshoot: Limited to < 5°C above setpoint
    - Settling time: Stable within ±1°C in < 60 seconds
    - Steady-state error: < 0.5°C
 
-#### Dynamic Tuning Capability:
+#### Dynamic Tuning Capability
 Yes, the system is designed to support dynamic PID tuning:
 
 ```cpp
@@ -41,7 +41,7 @@ class AutoTuner {
 };
 ```
 
-#### Future Enhancements:
+#### Future Enhancements
 - **Adaptive Control**: Monitor system response and adjust gains in real-time
 - **Gain Scheduling**: Different PID sets for different operating regions
 - **Machine Learning**: Use historical data to optimize control parameters
@@ -55,7 +55,7 @@ class AutoTuner {
 
 **A:** Absolutely. The current simulator is specifically designed to be replaced with a production CAN stack:
 
-#### Production Architecture:
+#### Production Architecture
 ```cpp
 // Abstract interface already in place
 class ICANInterface {
@@ -74,13 +74,13 @@ class J1939Stack : public ICANInterface {
 };
 ```
 
-#### Recommended Production Stacks:
+#### Recommended Production Stacks
 1. **Linux Systems**: SocketCAN with libsocketcan
 2. **RTOS Systems**: CANopen or J1939 stacks
 3. **Automotive**: AUTOSAR COM stack
 4. **Safety-Critical**: ISO 26262 certified stacks
 
-#### HAL Benefits:
+#### HAL Benefits
 - **Portability**: Switch between different CAN hardware
 - **Testability**: Use simulator for unit tests
 - **Flexibility**: Support multiple CAN interfaces
@@ -96,7 +96,7 @@ See Issue #1 for detailed hardware interface plans.
 
 **A:** The system implements multiple layers of protection:
 
-#### Timeout Configuration:
+#### Timeout Configuration
 ```cpp
 // Current implementation
 constexpr float LOW_LEVEL_TIMEOUT = 3.0f;    // Coolant level
@@ -105,29 +105,29 @@ constexpr float CAN_MSG_TIMEOUT = 1.0f;      // Message timeout (planned)
 constexpr float SENSOR_TIMEOUT = 2.0f;       // Sensor reading (planned)
 ```
 
-#### Signal Loss Handling:
+#### Signal Loss Handling
 
-1. **Temperature Sensor Loss**:
+1. **Temperature Sensor Loss**
    - Detection: No CAN message for 2 seconds
    - Action: Transition to ERROR state
    - Failsafe: Pump ON, Fan at 50% (conservative cooling)
 
-2. **Level Sensor Loss**:
+2. **Level Sensor Loss**
    - Detection: No signal or invalid reading
    - Action: After 3-second timeout → ERROR state
    - Failsafe: Maintain current pump state, alert operator
 
-3. **CAN Bus Failure**:
+3. **CAN Bus Failure**
    - Detection: Bus-off condition or no ACKs
    - Action: Attempt recovery 3 times
    - Failsafe: Local control mode with fixed parameters
 
-4. **Power Loss Recovery**:
+4. **Power Loss Recovery**
    - Non-volatile state storage
    - Controlled restart sequence
    - Previous state validation
 
-#### State Transition Safety:
+#### State Transition Safety
 ```cpp
 // Guard conditions prevent invalid transitions
 addTransition({
@@ -148,7 +148,7 @@ addTransition({
 
 **A:** The testing framework is designed for comprehensive fault testing:
 
-#### Fault Injection Framework:
+#### Fault Injection Framework
 ```cpp
 class FaultInjector {
     void injectSensorNoise(float amplitude, float frequency);
@@ -167,13 +167,13 @@ TEST_F(PIDControllerTest, NoiseRejection) {
 }
 ```
 
-#### Sensor Noise Testing:
+#### Sensor Noise Testing
 1. **White Noise**: Random ±2°C variations
 2. **Periodic Disturbance**: Sine wave interference
 3. **Spike Noise**: Occasional outliers
 4. **Drift**: Slow sensor degradation
 
-#### Fault Scenarios:
+#### Fault Scenarios
 ```cpp
 TEST_F(SystemTest, SensorFailureRecovery) {
     // Inject sensor failure
@@ -194,7 +194,7 @@ TEST_F(SystemTest, SensorFailureRecovery) {
 }
 ```
 
-#### Stress Testing:
+#### Stress Testing
 - Message flooding (1000+ msgs/sec)
 - Rapid state changes
 - Memory leak detection
@@ -208,7 +208,7 @@ TEST_F(SystemTest, SensorFailureRecovery) {
 
 **A:** The modular architecture is specifically designed for multi-sensor/multi-zone systems:
 
-#### Current Scalable Design:
+#### Current Scalable Design
 ```cpp
 // Template-based for any number of sensors
 template<size_t N>
@@ -237,15 +237,15 @@ class SensorManager {
 };
 ```
 
-#### Scaling Strategies:
+#### Scaling Strategies
 
-1. **Sensor Fusion**:
+1. **Sensor Fusion**
    - Weighted averaging
    - Outlier rejection
    - Redundancy management
    - Voting algorithms
 
-2. **Zone Architecture** (Issue #6):
+2. **Zone Architecture** (Issue #6)
    ```cpp
    class CoolingZone {
        std::vector<uint32_t> sensorIds;
@@ -254,13 +254,13 @@ class SensorManager {
    };
    ```
 
-3. **Performance Optimization**:
+3. **Performance Optimization**
    - Parallel processing of sensor data
    - Priority-based update rates
    - Efficient message filtering
    - Hardware CAN filters
 
-4. **Configuration Management**:
+4. **Configuration Management**
    ```json
    {
      "sensors": [
@@ -271,13 +271,13 @@ class SensorManager {
    }
    ```
 
-#### Practical Limits:
+#### Practical Limits
 - **CAN Bus**: ~800 messages/second at 500kbps
 - **Processing**: O(1) per sensor with proper design
 - **Memory**: ~100 bytes per sensor config
 - **Tested with**: 20 simulated sensors
 
-#### Future Enhancements:
+#### Future Enhancements
 - Sensor priority queuing
 - Adaptive sampling rates
 - Distributed processing

@@ -21,7 +21,7 @@ python3 cooling_control.py
 ```
 
 ### Output
-```
+```text
 === EAE Cooling Control System Demo ===
 Simulating system operation...
 
@@ -59,7 +59,7 @@ Cooling control system stopped
 === Demo Complete ===
 ```
 
-### Analysis
+### Python Analysis
 - ✅ Ignition handling works correctly
 - ✅ Pump activates during initialization
 - ✅ Temperature monitoring functional
@@ -80,7 +80,7 @@ g++ -std=c++17 cooling_control.cpp -o cooling_control -pthread
 ```
 
 ### Output
-```
+```text
 === EAE Cooling Control System Demo ===
 Simulating system operation...
 
@@ -129,7 +129,7 @@ Cooling control system stopped
 === Demo Complete ===
 ```
 
-### Analysis
+### C++ Analysis
 - ✅ State transitions logged correctly
 - ✅ Fan PID control activated at threshold (60°C)
 - ✅ Fan speed calculated correctly (15% at 68°C)
@@ -154,7 +154,7 @@ make -j$(nproc)
 ```
 
 ### Sample Output
-```
+```text
 === EAE Advanced Firmware System ===
 Features: CANBUS, PID Control, State Machine
 Temperature Setpoint: 70.0°C
@@ -179,7 +179,7 @@ Temp: 67.0°C, Pump: ON, Fan: ON, Speed: 0%, CAN TX: 10 RX: 50
 ```
 
 ### Output
-```
+```text
 [==========] Running 20 tests from 4 test suites.
 [----------] Global test environment set-up.
 [----------] 5 tests from PIDControllerTest

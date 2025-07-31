@@ -5,7 +5,7 @@
 [![Release](https://img.shields.io/github/v/release/murr2k/EAE_Firmware)](https://github.com/murr2k/EAE_Firmware/releases/latest)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-**Author:** Murray Kopit  
+**Author:** Murray Kopit
 **Date:** July 31, 2025
 
 This repository contains the solutions for the EAE Engineering Challenge - Electrical and Controls section, specifically Questions 7 and 7.1.
