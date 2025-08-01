@@ -1,8 +1,5 @@
 # EAE Firmware Challenge Submission
 
-[![CI/CD Pipeline](https://github.com/murr2k/EAE_Firmware/actions/workflows/ci.yml/badge.svg)](https://github.com/murr2k/EAE_Firmware/actions/workflows/ci.yml)
-[![Tests](https://img.shields.io/github/actions/workflow/status/murr2k/EAE_Firmware/ci.yml?label=tests)](https://github.com/murr2k/EAE_Firmware/actions/workflows/ci.yml)
-[![Code Coverage](https://github.com/murr2k/EAE_Firmware/actions/workflows/coverage.yml/badge.svg)](https://github.com/murr2k/EAE_Firmware/actions/workflows/coverage.yml)
 [![Release](https://img.shields.io/github/v/release/murr2k/EAE_Firmware)](https://github.com/murr2k/EAE_Firmware/releases/latest)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Last Commit](https://img.shields.io/github/last-commit/murr2k/EAE_Firmware)](https://github.com/murr2k/EAE_Firmware/commits/main)
@@ -57,33 +54,33 @@ This project implements a complete cooling system controller for an electric veh
 
 ```text
 EAE_Firmware/
-├── src/                      # Source files
-│   ├── main.cpp             # Main application entry point
-│   ├── canbus_simulator.cpp # CANBUS communication simulation
-│   ├── pid_controller.cpp   # PID control implementation
-│   ├── state_machine.cpp    # State machine template
-│   └── cooling_system.cpp   # Main cooling system logic
-├── include/                 # Header files
-│   ├── canbus_simulator.h   # CANBUS interface
-│   ├── pid_controller.h     # PID controller class
-│   ├── state_machine.h      # Generic state machine template
-│   └── cooling_system.h     # Cooling system controller
-├── tests/                   # Unit tests
-│   ├── test_main.cpp       # Test runner
-│   ├── test_pid.cpp        # PID controller tests
+├── src/                       # Source files
+│   ├── main.cpp               # Main application entry point
+│   ├── canbus_simulator.cpp   # CANBUS communication simulation
+│   ├── pid_controller.cpp     # PID control implementation
+│   ├── state_machine.cpp      # State machine template
+│   └── cooling_system.cpp     # Main cooling system logic
+├── include/                   # Header files
+│   ├── canbus_simulator.h     # CANBUS interface
+│   ├── pid_controller.h       # PID controller class
+│   ├── state_machine.h        # Generic state machine template
+│   └── cooling_system.h       # Cooling system controller
+├── tests/                     # Unit tests
+│   ├── test_main.cpp          # Test runner
+│   ├── test_pid.cpp           # PID controller tests
 │   ├── test_state_machine.cpp # State machine tests
-│   └── test_canbus.cpp     # CANBUS simulator tests
-├── cooling_control.py      # Question 7 - Python implementation
-├── cooling_control.cpp     # Question 7 - C++ standalone implementation
-├── CMakeLists.txt         # CMake build configuration
-├── build.sh               # Build script for Linux/MSYS2
-├── test_cooling_control.py # Python unit tests
-├── README.md              # This file
-├── CHANGELOG.md           # Version history
-├── REVIEWER_QA.md         # Q&A for reviewers
-├── TEST_RESULTS.md        # Example test outputs
-├── CI_CD_TEST_RESULTS.md  # CI/CD pipeline test results
-└── .gitignore            # Git ignore file
+│   └── test_canbus.cpp        # CANBUS simulator tests
+├── cooling_control.py         # Question 7 - Python implementation
+├── cooling_control.cpp        # Question 7 - C++ standalone implementation
+├── CMakeLists.txt             # CMake build configuration
+├── build.sh                   # Build script for Linux/MSYS2
+├── test_cooling_control.py    # Python unit tests
+├── README.md                  # This file
+├── CHANGELOG.md               # Version history
+├── REVIEWER_QA.md             # Q&A for reviewers
+├── TEST_RESULTS.md            # Example test outputs
+├── CI_CD_TEST_RESULTS.md      # CI/CD pipeline test results
+└── .gitignore                 # Git ignore file
 ```
 
 ## Question 7: Cooling Loop Control Logic
