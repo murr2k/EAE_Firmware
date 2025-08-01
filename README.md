@@ -368,3 +368,10 @@ See [Issues](https://github.com/murr2k/EAE_Firmware/issues) for feature requests
 ## ChangeLog
 
 See [CHANGELOG.md](CHANGELOG.md) for version history and release notes.
+
+<pre> 
+``` ──────────────────────────────────────────────────────────────
+Built as part of a firmware challenge for Epiroc, this project demonstrates embedded systems design principles including modular control logic, PID implementation, state machines, test-driven development, and continuous integration.
+────────────────────────────────────────────────────────────── ```
+</pre>
+
