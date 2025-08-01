@@ -5,8 +5,23 @@ on:
     branches: [ main, develop ]
     tags:
       - 'v*'
+    paths-ignore:
+      - '**.md'
+      - '.gitignore'
+      - 'LICENSE'
+      - '.github/workflows/*.yml'
+      - '.github/**/*.md'
+      - 'wiki/**'
+      - '.claude/**'
   pull_request:
     branches: [ main ]
+    paths-ignore:
+      - '**.md'
+      - '.gitignore'
+      - 'LICENSE'
+      - '.github/**/*.md'
+      - 'wiki/**'
+      - '.claude/**'
   workflow_dispatch:
 
 env:

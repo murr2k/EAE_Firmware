@@ -3,8 +3,23 @@ name: Code Coverage
 on:
   push:
     branches: [ main, develop ]
+    paths-ignore:
+      - '**.md'
+      - '.gitignore'
+      - 'LICENSE'
+      - '.github/workflows/*.yml'
+      - '.github/**/*.md'
+      - 'wiki/**'
+      - '.claude/**'
   pull_request:
     branches: [ main ]
+    paths-ignore:
+      - '**.md'
+      - '.gitignore'
+      - 'LICENSE'
+      - '.github/**/*.md'
+      - 'wiki/**'
+      - '.claude/**'
 
 jobs:
   coverage:
