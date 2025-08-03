@@ -42,7 +42,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Core functionality fully tested and working
 - Remaining issues: Super Linter strictness, slow sanitizer tests
 
-## [1.0.0] - 2025-01-31
+## [1.0.0] - 2025-07-31
 
 ### Added
 - Initial release of EAE Firmware Challenge solutions
