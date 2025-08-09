@@ -38,13 +38,13 @@ The cooling control system consists of four main components:
 │                   Cooling System                │
 │                                                 │
 │  ┌──────────────┐    ┌──────────────┐           │
-│  │ Temperature  │───▶│     PID      │           │
+│  │ Temperature  │──▶│     PID      │           │
 │  │   Sensor     │    │  Controller  │           │
 │  └──────────────┘    └──────────────┘           │
 │         │                    │                  │
 │         ▼                    ▼                  │
 │  ┌──────────────┐    ┌──────────────┐           │
-│  │    State     │───▶│   Outputs    │           │
+│  │    State     │──▶│   Outputs    │           │
 │  │   Machine    │    │ (Fan, Pump)  │           │
 │  └──────────────┘    └──────────────┘           │
 │         ▲                                       │
