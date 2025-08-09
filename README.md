@@ -40,7 +40,7 @@ This project implements a complete cooling system controller for an electric veh
 4. ✅ Fan Control with variable speed
 5. ✅ Safety Functions (low coolant, over-temperature protection)
 
-### Question 7.1 - Eight Advanced Features Implemented
+### Question 7.1 - Advanced Features Implemented
 1. ✅ **CANBUS Simulation** - Full send/receive data simulation with message handlers
 2. ✅ **PID Loop** - Generic PID controller with anti-windup for fan speed control
 3. ✅ **State Machine** - Template-based state machine with guards and transition actions
@@ -49,6 +49,7 @@ This project implements a complete cooling system controller for an electric veh
 6. ✅ **Linux/MSYS2 Support** - Cross-platform build with shell script launcher
 7. ✅ **Google Test Unit Testing** - Comprehensive test suite for all components
 8. ✅ **Static Linking** - No external dependencies shipped, all statically linked
+9. ✅ **MATLAB/Simulink Integration** - PID tuning validation and system modeling
 
 ## Project Structure
 
@@ -70,6 +71,11 @@ EAE_Firmware/
 │   ├── test_pid.cpp           # PID controller tests
 │   ├── test_state_machine.cpp # State machine tests
 │   └── test_canbus.cpp        # CANBUS simulator tests
+├── matlab_project/            # MATLAB/Simulink analysis
+│   └── EAE_ThermalControl/    # PID tuning and system modeling
+│       ├── scripts/           # Analysis and optimization scripts
+│       ├── results/           # Generated plots and reports
+│       └── README.md          # MATLAB project documentation
 ├── cooling_control.py         # Question 7 - Python implementation
 ├── cooling_control.cpp        # Question 7 - C++ standalone implementation
 ├── CMakeLists.txt             # CMake build configuration
@@ -80,6 +86,8 @@ EAE_Firmware/
 ├── REVIEWER_QA.md             # Q&A for reviewers
 ├── TEST_RESULTS.md            # Example test outputs
 ├── CI_CD_TEST_RESULTS.md      # CI/CD pipeline test results
+├── THEORY_OF_OPERATION.md     # C++ implementation walkthrough
+├── THEORY_OF_OPERATION_PYTHON.md # Python implementation guide
 └── .gitignore                 # Git ignore file
 ```
 
@@ -165,6 +173,14 @@ g++ -std=c++17 cooling_control.cpp -o cooling_control -pthread
 - No runtime library dependencies
 - Single executable deployment
 - Google Test fetched at build time
+
+### 9. MATLAB/Simulink Integration
+- **PID Tuning Validation**: Ziegler-Nichols and optimization methods
+- **System Modeling**: Transfer function and state-space representations
+- **Multiple Optimizers**: Pattern search, genetic algorithm, particle swarm
+- **Robustness Analysis**: Parameter variation and disturbance rejection
+- **Automated Reporting**: HTML reports with plots and performance metrics
+- **Results Archival**: Timestamped results with all plots and data
 
 ## Building and Running
 
@@ -364,6 +380,9 @@ See [Issues](https://github.com/murr2k/EAE_Firmware/issues) for feature requests
 - [WORKFLOW_FAILURE_ANALYSIS.md](WORKFLOW_FAILURE_ANALYSIS.md) - CI/CD troubleshooting guide
 - [CI_RESULTS_GUIDE.md](CI_RESULTS_GUIDE.md) - Guide to accessing and analyzing CI/CD results
 - [SLACK_SETUP.md](SLACK_SETUP.md) - Instructions for setting up Slack notifications
+- [THEORY_OF_OPERATION.md](THEORY_OF_OPERATION.md) - Detailed walkthrough of C++ cooling control implementation
+- [THEORY_OF_OPERATION_PYTHON.md](THEORY_OF_OPERATION_PYTHON.md) - Python implementation guide and comparison
+- [matlab_project/EAE_ThermalControl/README.md](matlab_project/EAE_ThermalControl/README.md) - MATLAB/Simulink project documentation
 
 ## ChangeLog
 

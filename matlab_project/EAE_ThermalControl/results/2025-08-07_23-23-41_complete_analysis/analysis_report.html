@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>EAE Thermal Control Analysis Report</title>
+<style>
+body { font-family: Arial, sans-serif; margin: 40px; }
+h1 { color: #333; border-bottom: 2px solid #4CAF50; padding-bottom: 10px; }
+h2 { color: #555; margin-top: 30px; }
+table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+th { background-color: #4CAF50; color: white; }
+tr:nth-child(even) { background-color: #f2f2f2; }
+img { max-width: 100%; height: auto; margin: 20px 0; }
+.success { color: green; font-weight: bold; }
+.fail { color: red; font-weight: bold; }
+</style>
+</head>
+<body>
+<h1>EAE Thermal Control System Analysis Report</h1>
+<p><strong>Generated:</strong> 07-Aug-2025 23:24:36</p>
+<h2>System Parameters</h2>
+<table>
+<tr><th>Parameter</th><th>Value</th></tr>
+<tr><td>Temperature Setpoint</td><td>65.0 °C</td></tr>
+<tr><td>Sample Time</td><td>0.10 s</td></tr>
+<tr><td>Simulation Duration</td><td>300 s</td></tr>
+</table>
+<h2>PID Parameters Evolution</h2>
+<table>
+<tr><th>Method</th><th>Kp</th><th>Ki</th><th>Kd</th></tr>
+<tr><td>Ziegler-Nichols</td><td>38.5864</td><td>6.0916</td><td>238.7217</td></tr>
+<tr><td>Optimized</td><td>9.8076</td><td>0.1500</td><td>0.0300</td></tr>
+<tr><td>C++ Reference</td><td>2.5000</td><td>0.5000</td><td>0.1000</td></tr>
+</table>
+<h2>Performance Metrics</h2>
+<table>
+<tr><th>Metric</th><th>Required</th><th>Achieved</th><th>Status</th></tr>
+<tr><td>Rise Time</td><td>&lt;30.0 s</td><td>117.69 s</td><td class="fail">✗ FAIL</td></tr>
+<tr><td>Settling Time</td><td>&lt;60.0 s</td><td>296.07 s</td><td class="fail">✗ FAIL</td></tr>
+<tr><td>Overshoot</td><td>&lt;5.0%</td><td>16.71%</td><td class="fail">✗ FAIL</td></tr>
+</table>
+<h2>Analysis Plots</h2>
+<h3>Control Strategy Comparison</h3>
+<img src="plots/Control_Strategy_Comparison.png" alt="Control Strategy Comparison">
+<h3>Robustness Analysis</h3>
+<img src="plots/Robustness_Analysis.png" alt="Robustness Analysis">
+<h3>Ziegler Nichols Tuning</h3>
+<img src="plots/Ziegler_Nichols_Tuning.png" alt="Ziegler Nichols Tuning">
+</body>
+</html>

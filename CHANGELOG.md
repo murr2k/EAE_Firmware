@@ -86,6 +86,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CANBUS simulation generates random temperature values for demonstration
 - No actual hardware interface implementation (simulation only)
 
+## [1.2.0] - 2025-08-09
+
+### Added
+- MATLAB/Simulink integration for PID tuning and system modeling
+  - Ziegler-Nichols tuning method implementation
+  - Multiple optimization algorithms (pattern search, genetic algorithm, particle swarm)
+  - Transfer function and state-space system models
+  - Robustness analysis with parameter variation testing
+  - Automated HTML report generation with performance metrics
+  - Timestamped results archival with all plots and data
+- Comprehensive documentation
+  - THEORY_OF_OPERATION.md for C++ implementation walkthrough
+  - THEORY_OF_OPERATION_PYTHON.md for Python implementation guide
+  - MATLAB project README with detailed usage instructions
+- Enhanced testing capabilities
+  - MATLAB scripts for PID parameter validation
+  - Comparison of theoretical vs practical tuning values
+  - Built-in simulation and testing framework
+
+### Improved
+- PID tuning validation through multiple methods
+- System modeling accuracy with time delay approximation
+- Documentation with line-by-line code explanations
+- Test coverage with MATLAB-based validation
+
+### Fixed
+- MATLAB compatibility issues with SaveFormat parameter
+- Plot saving functionality in MATLAB scripts
+- Dimension mismatches in performance comparison tables
+- Root locus errors with delayed systems using Padé approximation
+
 ## [Unreleased]
 
 ### Planned Features
@@ -95,11 +126,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Web-based monitoring interface
 - Extended diagnostic information
 - Multiple cooling zone support
+- Hardware-in-the-loop testing with MATLAB
+- Real-time parameter tuning interface
 
 ---
 
 ## Version History
 
+- **v1.2.0** (2025-08-09) - MATLAB Integration and Documentation Enhancement
+  - Added MATLAB/Simulink project for PID tuning validation
+  - Created comprehensive theory of operation documents
+  - Enhanced testing with multiple optimization methods
 - **v1.1.0** (2025-07-31) - CI/CD Integration and Compatibility Fixes
   - Added comprehensive GitHub Actions CI/CD pipeline
   - Fixed Ubuntu 24.04 compatibility issues

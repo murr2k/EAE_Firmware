@@ -1,0 +1,359 @@
+=====================================
+ EAE THERMAL CONTROL SYSTEM ANALYSIS
+=====================================
+
+Session: 2025-08-07_23-11-58
+
+Parameters loaded into workspace as 'params'
+Creating thermal system model...
+
+System Model Properties:
+------------------------
+Gain Margin: 62.04 dB at 0.14 rad/s
+Phase Margin: Inf degrees at NaN rad/s
+Dominant pole: -0.0017
+System order: 3
+
+✓ Thermal model created successfully
+
+========================================
+   Ziegler-Nichols PID Tuning
+========================================
+
+1. Reaction Curve Method
+------------------------
+Process Parameters:
+  Delay (L): 46.870 seconds
+  Time Constant (T): 502.398 seconds
+  Static Gain (K): 0.749
+
+Reaction Curve PID Parameters:
+  Kp = 17.173
+  Ki = 0.183
+  Kd = 402.443
+
+2. Ultimate Gain Method
+------------------------
+System has delays - using Pade approximation
+System is very stable - using estimated parameters
+Critical Parameters:
+  Critical Gain (Kc): 100.000
+  Critical Period (Pc): 10.000 seconds
+  Critical Frequency: 0.628 rad/s
+
+Ultimate Gain PID Parameters:
+  Kp = 60.000
+  Ki = 12.000
+  Kd = 75.000
+
+3. Initial PID Parameters (Average)
+------------------------------------
+  Kp = 38.586
+  Ki = 6.092
+  Kd = 238.722
+
+4. Simulating System Response
+------------------------------
+Performance Metrics:
+  Rise Time: 29.43 seconds
+  Settling Time: 296.36 seconds
+  Overshoot: 0.00%
+  Peak: 63.89
+  Steady-State Error: 64.8900
+
+✓ Ziegler-Nichols tuning completed
+
+========================================
+   PID Parameter Optimization
+========================================
+
+1. Pattern Search Optimization
+------------------------------
+Scaling down initial PID values (too aggressive)
+
+
+Iter     Func-count       f(x)      MeshSize     Method
+    0           1    3.96313e+06             1      
+    1           2    3.29752e+06             2     Successful Poll
+    2           2    3.29752e+06             1     Refine Mesh
+    3           3    3.29752e+06           0.5     Refine Mesh
+    4           6    3.29725e+06             1     Successful Poll
+    5           7    3.29725e+06           0.5     Refine Mesh
+    6          10    3.29725e+06          0.25     Refine Mesh
+    7          15    2.65004e+06           0.5     Successful Poll
+    8          18    2.23316e+06             1     Successful Poll
+    9          19    2.23316e+06           0.5     Refine Mesh
+   10          23    1.82927e+06             1     Successful Poll
+   11          25    1.82927e+06           0.5     Refine Mesh
+   12          28    1.82927e+06          0.25     Refine Mesh
+   13          31    1.82927e+06         0.125     Refine Mesh
+   14          36         551092          0.25     Successful Poll
+   15          39         529753           0.5     Successful Poll
+   16          42         529753          0.25     Refine Mesh
+   17          46         529753         0.125     Refine Mesh
+   18          51         430967          0.25     Successful Poll
+   19          54         430967         0.125     Refine Mesh
+   20          59         430949          0.25     Successful Poll
+   21          62         430949         0.125     Refine Mesh
+   22          66         430949        0.0625     Refine Mesh
+   23          71         430941         0.125     Successful Poll
+   24          75         430941        0.0625     Refine Mesh
+   25          79         430941       0.03125     Refine Mesh
+   26          83         408200        0.0625     Successful Poll
+   27          87         408200       0.03125     Refine Mesh
+   28          91         408200       0.01562     Refine Mesh
+   29          96         408200      0.007812     Refine Mesh
+   30         101         402675       0.01562     Successful Poll
+
+Iter     Func-count        f(x)       MeshSize      Method
+   31         106         402675      0.007812     Refine Mesh
+   32         111         402675      0.003906     Refine Mesh
+   33         116         402675      0.001953     Refine Mesh
+   34         122         401292      0.003906     Successful Poll
+   35         127         401292      0.001953     Refine Mesh
+   36         133         401292      0.003906     Successful Poll
+   37         138         401292      0.001953     Refine Mesh
+   38         143         401292     0.0009766     Refine Mesh
+   39         149         401292      0.001953     Successful Poll
+   40         154         401292     0.0009766     Refine Mesh
+   41         159         401292     0.0004883     Refine Mesh
+   42         164         401292     0.0002441     Refine Mesh
+   43         169         401119     0.0004883     Successful Poll
+   44         174         401119     0.0002441     Refine Mesh
+   45         179         401119     0.0001221     Refine Mesh
+   46         185         401032     0.0002441     Successful Poll
+   47         190         401032     0.0001221     Refine Mesh
+   48         196         401032     0.0002441     Successful Poll
+   49         201         401032     0.0001221     Refine Mesh
+   50         206         401032     6.104e-05     Refine Mesh
+   51         212         401032     0.0001221     Successful Poll
+   52         217         401032     6.104e-05     Refine Mesh
+   53         222         401032     3.052e-05     Refine Mesh
+   54         228         401011     6.104e-05     Successful Poll
+   55         233         401011     3.052e-05     Refine Mesh
+   56         239         401011     6.104e-05     Successful Poll
+   57         244         401011     3.052e-05     Refine Mesh
+   58         249         401011     1.526e-05     Refine Mesh
+   59         255         401011     3.052e-05     Successful Poll
+   60         260         401011     1.526e-05     Refine Mesh
+
+Iter     Func-count        f(x)       MeshSize      Method
+   61         265         401011     7.629e-06     Refine Mesh
+   62         271         401011     1.526e-05     Successful Poll
+   63         276         401011     7.629e-06     Refine Mesh
+   64         281         401011     3.815e-06     Refine Mesh
+   65         286         401008     7.629e-06     Successful Poll
+   66         291         401008     3.815e-06     Refine Mesh
+   67         296         401008     1.907e-06     Refine Mesh
+   68         301         401008     9.537e-07     Refine Mesh
+patternsearch stopped because the mesh size was less than options.MeshTolerance.
+Pattern Search Results:
+  Kp = 9.3313, Ki = 0.0787, Kd = 2.0000
+  Cost = 401007.9078
+
+2. Genetic Algorithm Optimization
+----------------------------------
+
+Single objective optimization:
+3 Variables
+
+Options:
+CreationFcn:       @gacreationuniform
+CrossoverFcn:      @crossoverscattered
+SelectionFcn:      @selectionstochunif
+MutationFcn:       @mutationadaptfeasible
+
+                                  Best           Mean      Stall
+Generation      Func-count        f(x)           f(x)    Generations
+    1              100       4.235e+05       2.678e+06        0
+    2              145       4.235e+05       2.045e+06        1
+    3              190       4.235e+05       1.752e+06        2
+    4              235       4.235e+05       1.457e+06        3
+    5              280       4.235e+05       1.105e+06        4
+    6              325       4.235e+05       7.359e+05        5
+    7              370       3.756e+05       6.187e+05        0
+    8              415       3.756e+05       5.703e+05        1
+    9              460       2.653e+05       5.442e+05        0
+   10              505       1.826e+05         5.5e+05        0
+   11              550       1.826e+05       5.129e+05        1
+   12              595       1.826e+05       4.495e+05        2
+   13              640       1.826e+05       4.326e+05        3
+   14              685       1.762e+05       4.244e+05        0
+   15              730       1.762e+05       4.301e+05        1
+   16              775       1.762e+05       3.725e+05        2
+   17              820       1.313e+05        3.81e+05        0
+   18              865       1.313e+05       4.044e+05        1
+   19              910       1.313e+05       3.982e+05        2
+   20              955       1.313e+05       3.683e+05        3
+   21             1000       1.313e+05       3.368e+05        4
+   22             1045       1.312e+05        2.76e+05        0
+   23             1090       1.312e+05       2.696e+05        1
+   24             1135       1.312e+05       2.671e+05        2
+   25             1180       1.311e+05       2.253e+05        0
+   26             1225       1.311e+05       2.365e+05        1
+   27             1270       1.311e+05       2.714e+05        2
+   28             1315       1.311e+05       2.552e+05        3
+   29             1360       1.311e+05       2.315e+05        4
+   30             1405       1.311e+05        2.41e+05        0
+
+                                  Best           Mean      Stall
+Generation      Func-count        f(x)           f(x)    Generations
+   31             1450       1.311e+05       2.323e+05        0
+   32             1495       1.311e+05       2.549e+05        1
+   33             1540       1.311e+05       2.595e+05        2
+   34             1585       1.311e+05       2.038e+05        3
+   35             1630       1.311e+05       2.435e+05        4
+   36             1675       1.311e+05       2.219e+05        5
+   37             1720       1.311e+05       2.427e+05        6
+   38             1765       1.311e+05       2.752e+05        0
+   39             1810       1.311e+05       2.785e+05        1
+   40             1855       1.311e+05       2.551e+05        2
+   41             1900       1.311e+05       2.941e+05        3
+   42             1945       1.311e+05       2.475e+05        4
+   43             1990       1.311e+05       2.483e+05        5
+   44             2035       1.311e+05       2.246e+05        0
+   45             2080       1.311e+05       1.989e+05        1
+   46             2125       1.311e+05        2.43e+05        2
+   47             2170       1.311e+05       2.798e+05        3
+   48             2215       1.311e+05       2.513e+05        4
+   49             2260       1.311e+05       2.685e+05        0
+   50             2305       1.311e+05       2.583e+05        0
+   51             2350        1.31e+05       2.575e+05        0
+   52             2395        1.31e+05       2.241e+05        1
+   53             2440        1.31e+05       2.339e+05        2
+   54             2485        1.31e+05       2.805e+05        3
+   55             2530        1.31e+05       2.713e+05        4
+   56             2575        1.31e+05       2.429e+05        5
+   57             2620        1.31e+05       2.447e+05        6
+   58             2665        1.31e+05       2.212e+05        7
+   59             2710        1.31e+05       2.527e+05        0
+   60             2755        1.31e+05        2.48e+05        1
+
+                                  Best           Mean      Stall
+Generation      Func-count        f(x)           f(x)    Generations
+   61             2800        1.31e+05       1.955e+05        2
+   62             2845        1.31e+05       2.018e+05        0
+   63             2890        1.31e+05       2.471e+05        1
+   64             2935        1.31e+05       2.329e+05        2
+   65             2980        1.31e+05       2.384e+05        0
+   66             3025        1.31e+05       2.715e+05        1
+   67             3070        1.31e+05        3.24e+05        2
+   68             3115        1.31e+05       2.935e+05        0
+   69             3160        1.31e+05       2.371e+05        0
+   70             3205        1.31e+05       2.147e+05        1
+   71             3250        1.31e+05       2.173e+05        2
+   72             3295        1.31e+05       2.264e+05        3
+   73             3340        1.31e+05       2.448e+05        0
+   74             3385        1.31e+05       2.967e+05        1
+   75             3430       1.309e+05       2.556e+05        0
+   76             3475       1.309e+05       2.312e+05        1
+   77             3520       1.309e+05       2.422e+05        2
+   78             3565       1.309e+05       1.678e+05        0
+   79             3610       1.309e+05       2.469e+05        1
+   80             3655       1.309e+05        2.74e+05        2
+   81             3700       1.309e+05        2.54e+05        0
+   82             3745       1.309e+05       2.868e+05        0
+   83             3790       1.309e+05        2.87e+05        1
+   84             3835       1.309e+05       2.277e+05        2
+   85             3880       1.309e+05       2.397e+05        3
+   86             3925       1.309e+05       2.119e+05        4
+   87             3970       1.309e+05       2.225e+05        5
+   88             4015       1.309e+05       2.309e+05        6
+   89             4060       1.309e+05       2.747e+05        0
+   90             4105       1.309e+05       1.951e+05        1
+
+                                  Best           Mean      Stall
+Generation      Func-count        f(x)           f(x)    Generations
+   91             4150       1.309e+05       2.231e+05        2
+   92             4195       1.309e+05       2.302e+05        3
+   93             4240       1.309e+05       2.097e+05        4
+   94             4285       1.309e+05       2.125e+05        0
+   95             4330       1.309e+05       2.266e+05        1
+   96             4375       1.309e+05       2.079e+05        2
+   97             4420       1.309e+05       2.765e+05        3
+   98             4465       1.309e+05        2.27e+05        4
+   99             4510       1.309e+05       2.363e+05        5
+  100             4555       1.309e+05       2.316e+05        6
+ga stopped because it exceeded options.MaxGenerations.
+Genetic Algorithm Results:
+  Kp = 0.0012, Ki = 0.0000, Kd = 1.6043
+  Cost = 130885.1918
+
+3. Particle Swarm Optimization
+-------------------------------
+
+                                 Best            Mean     Stall
+Iteration     f-count            f(x)            f(x)    Iterations
+    0              30       2.278e+06       3.345e+06        0
+    1              60       3.849e+05             Inf        0
+    2              90        3.62e+05       6.389e+06        0
+    3             120        3.62e+05       7.915e+05        1
+    4             150        3.62e+05       6.463e+05        2
+    5             180        3.62e+05        3.88e+05        3
+    6             210        3.62e+05       3.631e+05        4
+    7             240        3.62e+05        3.62e+05        5
+    8             270        3.62e+05        3.62e+05        6
+    9             300        3.62e+05        3.62e+05        7
+   10             330        3.62e+05        3.62e+05        8
+   11             360        3.62e+05        3.62e+05        9
+   12             390        3.62e+05        3.62e+05       10
+   13             420        3.62e+05        3.62e+05       11
+   14             450        3.62e+05        3.62e+05       12
+   15             480        3.62e+05        3.62e+05       13
+   16             510        3.62e+05        3.62e+05       14
+   17             540        3.62e+05        3.62e+05       15
+   18             570        3.62e+05        3.62e+05       16
+   19             600        3.62e+05        3.62e+05       17
+   20             630        3.62e+05        3.62e+05       18
+   21             660        3.62e+05        3.62e+05       19
+Optimization ended: relative change in the objective value 
+over the last OPTIONS.MaxStallIterations iterations is less than OPTIONS.FunctionTolerance.
+Particle Swarm Results:
+  Kp = 10.0000, Ki = 0.0000, Kd = 0.0000
+  Cost = 361988.1703
+
+4. Best Optimization Method: Genetic Algorithm
+-----------------------------------
+
+5. Iterative Refinement
+------------------------
+  Iteration 1: Kp=0.0013, Ki=0.0000, Kd=1.6845
+  Iteration 2: Kp=0.0013, Ki=0.0000, Kd=1.7688
+  Iteration 3: Kp=0.0014, Ki=0.0000, Kd=1.8572
+  Iteration 4: Kp=0.0015, Ki=0.0000, Kd=1.9501
+  Iteration 5: Kp=0.0016, Ki=0.0000, Kd=2.0476
+  Iteration 6: Kp=0.0016, Ki=0.0000, Kd=2.1499
+  Iteration 7: Kp=0.0017, Ki=0.0000, Kd=2.2574
+  Iteration 8: Kp=0.0018, Ki=0.0000, Kd=2.3703
+  Iteration 9: Kp=0.0019, Ki=0.0000, Kd=2.4888
+  Iteration 10: Kp=0.0020, Ki=0.0000, Kd=2.6133
+  Iteration 11: Kp=0.0021, Ki=0.0000, Kd=2.7439
+  Iteration 12: Kp=0.0022, Ki=0.0000, Kd=2.8811
+  Iteration 13: Kp=0.0023, Ki=0.0000, Kd=3.0252
+  Iteration 14: Kp=0.0024, Ki=0.0000, Kd=3.1765
+  Iteration 15: Kp=0.0025, Ki=0.0000, Kd=3.3353
+  Iteration 16: Kp=0.0027, Ki=0.0000, Kd=3.5020
+  Iteration 17: Kp=0.0028, Ki=0.0000, Kd=3.6771
+  Iteration 18: Kp=0.0029, Ki=0.0000, Kd=3.8610
+  Iteration 19: Kp=0.0031, Ki=0.0000, Kd=4.0540
+  Iteration 20: Kp=0.0032, Ki=0.0000, Kd=4.2568
+
+6. Comparison with C++ Implementation
+--------------------------------------
+C++ Implementation:  Kp=2.5, Ki=0.5, Kd=0.10
+MATLAB Optimized:    Kp=0.0032, Ki=0.0000, Kd=4.2568
+Final Blended:       Kp=0.7523, Ki=0.1500, Kd=3.0097
+
+✓ PID optimization completed
+
+========================================
+   Control Strategy Comparison
+========================================
+{Error using <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('horzcat')" style="font-weight:bold">horzcat</a>
+Dimensions of arrays being concatenated are not consistent.
+
+Error in <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('thermal_system_analysis', 'C:\Users\murr2\MATLAB Drive\EAE_ThermalControl\scripts\thermal_system_analysis.m', 105)" style="font-weight:bold">thermal_system_analysis</a> (<a href="matlab: opentoline('C:\Users\murr2\MATLAB Drive\EAE_ThermalControl\scripts\thermal_system_analysis.m',105,0)">line 105</a>)
+data_table = [performance_data, requirements_col(1, :)'];
+              ^^^^^^^^^^^^^^^^
+} 
+run_analysis_with_saving
