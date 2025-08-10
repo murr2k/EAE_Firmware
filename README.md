@@ -383,6 +383,7 @@ See [Issues](https://github.com/murr2k/EAE_Firmware/issues) for feature requests
 - [THEORY_OF_OPERATION.md](THEORY_OF_OPERATION.md) - Detailed walkthrough of C++ cooling control implementation
 - [THEORY_OF_OPERATION_PYTHON.md](THEORY_OF_OPERATION_PYTHON.md) - Python implementation guide and comparison
 - [matlab_project/EAE_ThermalControl/README.md](matlab_project/EAE_ThermalControl/README.md) - MATLAB/Simulink project documentation
+- [matlab_project/EAE_ThermalControl/LAB_REPORT.md](matlab_project/EAE_ThermalControl/LAB_REPORT.md) - Complete laboratory report with experimental results and analysis
 
 ## ChangeLog
 
