@@ -49,21 +49,21 @@ This MATLAB project implements comprehensive thermal control system modeling and
 
 ```
 EAE_ThermalControl/
-├── startup.m                     # Project initialization script
-├── README.md                     # This file
-├── models/                       # Simulink models
-│   └── cooling_system_model.slx # Auto-generated thermal system model
-├── scripts/                      # MATLAB scripts
-│   ├── load_default_parameters.m    # System parameters
-│   ├── create_thermal_model.m       # Transfer function generation
-│   ├── ziegler_nichols_tuning.m    # Z-N PID tuning
-│   ├── optimize_pid_parameters.m    # Multi-method optimization
-│   ├── thermal_system_analysis.m    # Main analysis script
-│   └── advanced_control_methods.m   # MPC, Adaptive, Fuzzy, NN control
-├── data/                        # Input data files
-├── results/                     # Output results
-│   └── tuning_results.mat     # Saved analysis results
-└── lib/                        # Custom functions
+├── startup.m                         # Project initialization script
+├── README.md                         # This file
+├── models/                           # Simulink models
+│   └── cooling_system_model.slx        # Auto-generated thermal system model
+├── scripts/                          # MATLAB scripts
+│   ├── load_default_parameters.m       # System parameters
+│   ├── create_thermal_model.m          # Transfer function generation
+│   ├── ziegler_nichols_tuning.m        # Z-N PID tuning
+│   ├── optimize_pid_parameters.m       # Multi-method optimization
+│   ├── thermal_system_analysis.m       # Main analysis script
+│   └── advanced_control_methods.m      # MPC, Adaptive, Fuzzy, NN control
+├── data/                             # Input data files
+├── results/                          # Output results
+│   └── tuning_results.mat              # Saved analysis results
+└── lib/                              # Custom functions
 ```
 
 ## Requirements
