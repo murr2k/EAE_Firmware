@@ -4,6 +4,47 @@
 
 This MATLAB project implements comprehensive thermal control system modeling and PID tuning for the EAE Firmware cooling system. It demonstrates how the PID parameters (Kp=2.5, Ki=0.5, Kd=0.1) were derived using Ziegler-Nichols methods and optimized through simulation.
 
+#### Enhanced the MATLAB README with comprehensive details:
+
+#####   Added Toolbox Usage Breakdown
+
+  - Control System Toolbox (40%): Core functions for transfer functions, stability analysis, PID design
+  - Optimization Toolbox (25%): Pattern search and constrained optimization
+  - Simulink (15%): Visual modeling and simulation
+  - Global Optimization (10%): Genetic algorithm and particle swarm
+  - Remaining toolboxes (10%): Advanced features and comparisons
+
+#####   Core Analysis Scripts (7 scripts):
+
+    1. startup.m - Environment setup
+    2. load_default_parameters.m - System configuration (temps, PID values, requirements)
+    3. create_thermal_model.m - Mathematical modeling with transfer functions
+    4. ziegler_nichols_tuning.m - Classical tuning methods (reaction curve & ultimate gain)
+    5. optimize_pid_parameters.m - Multi-algorithm optimization
+    6. thermal_system_analysis.m - Complete workflow orchestration
+    7. advanced_control_methods.m - MPC, adaptive, fuzzy, neural comparisons
+
+#####   Helper Scripts (4 scripts):
+
+    8. save_results_and_plots.m - Automated archival with HTML reports
+    9. save_figure_helper.m - Multi-format figure saving
+    10. run_analysis_with_saving.m - Production runs with logging
+    11. test_plot_saving.m - Diagnostic tool for save capabilities
+
+#####   Enhanced Results Section
+
+  - Complete PID evolution table showing progression from ZN (Kp=38.59) to final (Kp=9.81)
+  - Performance comparison table showing all controllers fail aggressive requirements
+  - Note explaining why 30s rise time is physically impossible with 150s time constants
+
+#####   Added Workflow Diagram
+
+  Shows script dependencies and data flow from startup through final archival
+
+#####   Quick Usage Examples
+
+  Provided 4 customization examples for common modifications (setpoint, PID values, dynamics, weights)
+
 ## Project Structure
 
 ```
