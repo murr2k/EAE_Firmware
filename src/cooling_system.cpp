@@ -22,7 +22,7 @@
  * Main cooling system control logic with state machine and PID control.
  */
 
-#include "include/cooling_system.h"
+#include "cooling_system.h"
 #include <iostream>
 #include <iomanip>
 

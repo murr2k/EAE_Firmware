@@ -22,7 +22,7 @@
  * Generic PID controller implementation with anti-windup.
  */
 
-#include "include/pid_controller.h"
+#include "pid_controller.h"
 
 PIDController::PIDController(const Parameters& params)
     : params_(params), integral_(0.0), lastError_(0.0), derivative_(0.0), firstRun_(true) {

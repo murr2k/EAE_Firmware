@@ -22,7 +22,7 @@
  * Main entry point for the cooling system controller application.
  */
 
-#include "include/cooling_system.h"
+#include "cooling_system.h"
 #include <iostream>
 #include <string>
 #include <sstream>
