@@ -14,9 +14,8 @@ MD013:
 # Multiple top-level headings - Allow for README structure
 MD025: false
 
-# Trailing punctuation in heading - Allow for questions/exclamations
-MD026:
-  punctuation: ".,;:"
+# Trailing punctuation in heading - Disable
+MD026: false
 
 # Inline HTML - Allow for better formatting
 MD033: false

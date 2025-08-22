@@ -10,11 +10,15 @@
 **Author:** Murray Kopit
 **Date:** July 31, 2025
 
-This repository contains the solutions for the EAE Engineering Challenge - Electrical and Controls section, specifically Questions 7 and 7.1.
+This repository contains the solutions for the EAE Engineering Challenge - Electrical and Controls
+section, specifically Questions 7 and 7.1.
 
-⚠️ Note to Reviewer: This submission includes more than Section 7 & 7.1, to demonstrate modular, testable design. Please feel free to skip additional features unless of interest. The core answers are in cooling_control.cpp and src/. Everything is open-book, per instructions.
+⚠️ Note to Reviewer: This submission includes more than Section 7 & 7.1, to demonstrate modular,
+testable design. Please feel free to skip additional features unless of interest. The core answers are
+in cooling_control.cpp and src/. Everything is open-book, per instructions.
 
 ## Table of Contents
+
 - [Overview](#overview)
 - [Features](#features)
 - [Project Structure](#project-structure)
@@ -29,11 +33,14 @@ This repository contains the solutions for the EAE Engineering Challenge - Elect
 
 ## Overview
 
-This project implements a complete cooling system controller for an electric vehicle inverter and DC-DC converter, featuring advanced control algorithms, safety mechanisms, and a modular architecture suitable for embedded systems.
+This project implements a complete cooling system controller for an electric vehicle inverter and
+DC-DC converter, featuring advanced control algorithms, safety mechanisms, and a modular architecture
+suitable for embedded systems.
 
 ## Features
 
 ### Question 7 Requirements Implemented
+
 1. ✅ Temperature Sensor Input processing
 2. ✅ Ignition Switch Input handling
 3. ✅ Pump Control logic
@@ -41,6 +48,7 @@ This project implements a complete cooling system controller for an electric veh
 5. ✅ Safety Functions (low coolant, over-temperature protection)
 
 ### Question 7.1 - Advanced Features Implemented
+
 1. ✅ **CANBUS Simulation** - Full send/receive data simulation with message handlers
 2. ✅ **PID Loop** - Generic PID controller with anti-windup for fan speed control
 3. ✅ **State Machine** - Template-based state machine with guards and transition actions
@@ -339,6 +347,7 @@ We welcome contributions! Please follow these guidelines:
    ./build.sh
    ./build/eae_tests
    ```
+
 5. **Submit a Pull Request**: Use the PR template and ensure all checks pass
 
 ### Development Workflow
@@ -360,6 +369,7 @@ We welcome contributions! Please follow these guidelines:
 ## Current Status
 
 ### Build Status
+
 - **C++ Builds**: ✅ All passing (GCC 9/10/11, Clang)
 - **Python Tests**: ✅ All passing (Python 3.8-3.11)
 - **Static Analysis**: ✅ Passing
@@ -367,6 +377,7 @@ We welcome contributions! Please follow these guidelines:
 - **Documentation**: ✅ Doxygen generation working
 
 ### Known Issues
+
 - **Issue #11**: GitHub Super Linter has some markdown formatting warnings
 - **Issue #13**: Sanitizer tests configuration needs adjustment
 
@@ -382,12 +393,16 @@ See [Issues](https://github.com/murr2k/EAE_Firmware/issues) for feature requests
 - [SLACK_SETUP.md](SLACK_SETUP.md) - Instructions for setting up Slack notifications
 - [THEORY_OF_OPERATION.md](THEORY_OF_OPERATION.md) - Detailed walkthrough of C++ cooling control implementation
 - [THEORY_OF_OPERATION_PYTHON.md](THEORY_OF_OPERATION_PYTHON.md) - Python implementation guide and comparison
-- [matlab_project/EAE_ThermalControl/README.md](matlab_project/EAE_ThermalControl/README.md) - MATLAB/Simulink project documentation
-- [matlab_project/EAE_ThermalControl/LAB_REPORT.md](matlab_project/EAE_ThermalControl/LAB_REPORT.md) - Complete laboratory report with experimental results and analysis
+- [matlab_project/EAE_ThermalControl/README.md](matlab_project/EAE_ThermalControl/README.md) -
+  MATLAB/Simulink project documentation
+- [matlab_project/EAE_ThermalControl/LAB_REPORT.md](matlab_project/EAE_ThermalControl/LAB_REPORT.md) -
+  Complete laboratory report with experimental results and analysis
 
 ## ChangeLog
 
 See [CHANGELOG.md](CHANGELOG.md) for version history and release notes.
 
 ---
-Built as part of a firmware challenge for Epiroc, this project demonstrates embedded systems design principles including modular control logic, PID implementation, state machines, test-driven development, and continuous integration.
+Built as part of a firmware challenge for Epiroc, this project demonstrates embedded systems design
+principles including modular control logic, PID implementation, state machines, test-driven development,
+and continuous integration.
