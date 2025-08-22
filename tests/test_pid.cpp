@@ -1,4 +1,20 @@
 /*
+ * Copyright 2025 Murray Kopit
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/*
  * EAE Firmware - PID Controller Tests
  * Author: Murray Kopit
  * Date: July 31, 2025
@@ -21,13 +37,13 @@ protected:
             100.0   // integralMax
         };
     }
-    
+
     PIDController::Parameters params;
 };
 
 TEST_F(PIDControllerTest, InitialState) {
     PIDController pid(params);
-    
+
     EXPECT_EQ(pid.getError(), 0.0);
     EXPECT_EQ(pid.getIntegral(), 0.0);
     EXPECT_EQ(pid.getDerivative(), 0.0);
@@ -37,7 +53,7 @@ TEST_F(PIDControllerTest, ProportionalControl) {
     params.ki = 0.0;  // Disable integral
     params.kd = 0.0;  // Disable derivative
     PIDController pid(params);
-    
+
     double output = pid.calculate(40.0);  // 10 below setpoint
     EXPECT_EQ(output, 10.0);  // kp * error = 1.0 * 10.0
 }
@@ -45,26 +61,26 @@ TEST_F(PIDControllerTest, ProportionalControl) {
 TEST_F(PIDControllerTest, OutputClamping) {
     params.kp = 10.0;  // High gain to trigger clamping
     PIDController pid(params);
-    
+
     double output = pid.calculate(0.0);  // 50 below setpoint
     EXPECT_EQ(output, 100.0);  // Clamped to max
-    
+
     output = pid.calculate(100.0);  // 50 above setpoint
     EXPECT_EQ(output, 0.0);  // Clamped to min
 }
 
 TEST_F(PIDControllerTest, Reset) {
     PIDController pid(params);
-    
+
     // Run a few cycles to build up state
     pid.calculate(40.0);
     pid.calculate(45.0);
     pid.calculate(48.0);
-    
+
     EXPECT_NE(pid.getIntegral(), 0.0);
-    
+
     pid.reset();
-    
+
     EXPECT_EQ(pid.getError(), 0.0);
     EXPECT_EQ(pid.getIntegral(), 0.0);
     EXPECT_EQ(pid.getDerivative(), 0.0);
@@ -72,10 +88,10 @@ TEST_F(PIDControllerTest, Reset) {
 
 TEST_F(PIDControllerTest, SetpointChange) {
     PIDController pid(params);
-    
+
     double output1 = pid.calculate(50.0);  // At setpoint
     EXPECT_NEAR(output1, 0.0, 1e-6);
-    
+
     pid.setSetpoint(60.0);
     double output2 = pid.calculate(50.0);  // Now 10 below new setpoint
     EXPECT_GT(output2, 0.0);

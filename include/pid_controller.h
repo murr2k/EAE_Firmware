@@ -1,4 +1,20 @@
 /*
+ * Copyright 2025 Murray Kopit
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/*
  * EAE Firmware - PID Controller Header
  * Author: Murray Kopit
  * Date: July 31, 2025
@@ -22,18 +38,18 @@ public:
         double integralMin;
         double integralMax;
     };
-    
+
     explicit PIDController(const Parameters& params);
-    
+
     double calculate(double processValue);
     void reset();
     void setSetpoint(double setpoint);
     void setParameters(const Parameters& params);
-    
+
     double getError() const { return lastError_; }
     double getIntegral() const { return integral_; }
     double getDerivative() const { return derivative_; }
-    
+
 private:
     Parameters params_;
     double integral_;
