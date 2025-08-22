@@ -1,0 +1,21 @@
+---
+# YAML Linting Configuration
+# Relaxed line length for CI/CD workflow files
+
+extends: default
+
+rules:
+  line-length:
+    max: 120
+    level: warning
+  
+  # Allow longer lines in comments
+  comments:
+    min-spaces-from-content: 1
+  
+  # Don't require document start marker
+  document-start: disable
+  
+  # Allow non-quoted truthy values
+  truthy:
+    allowed-values: ['true', 'false', 'on', 'off', 'yes', 'no']
