@@ -22,7 +22,7 @@ This document provides a comprehensive walkthrough of the Python cooling control
 
 The document emphasizes Python's role as a rapid prototyping platform that validates control logic before C++  implementation, reducing embedded debugging time.
 
-# Key Sections:
+## Key Sections
 1. System Architecture - Python-specific design patterns
 2. PID Controller - Simplified implementation with same tuning
 3. State Machine - Pythonic state handling without templates
@@ -30,13 +30,13 @@ The document emphasizes Python's role as a rapid prototyping platform that valid
 5. Threading Model - GIL-aware concurrent design
 6. Demonstration System - Built-in simulation capabilities
 
-# Presentation Preparation Highlights:
+## Presentation Preparation Highlights
 - Line-by-line algorithm walkthrough
 - Python vs C++ implementation comparison
 - Safety timing mechanisms (grace periods)
 - Built-in demonstration mode for testing
 
-# Important Design Decisions Explained:
+## Important Design Decisions Explained
 - Why Python for prototyping (rapid iteration)
 - Why threading vs asyncio (simpler state management)
 - Why dataclasses (clean data structures)
@@ -51,7 +51,7 @@ The Python implementation uses modern Python features for clarity and safety:
 3. **Threading** - Simplified concurrent execution
 4. **Time-based Safety** - Grace periods for fault tolerance
 
-```
+```text
 ┌──────────────────────────────────────────────┐
 │            CoolingController Class           │
 │                                              │

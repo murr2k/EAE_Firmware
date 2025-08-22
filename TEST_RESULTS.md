@@ -18,7 +18,7 @@ This document contains test execution results for both the Python and C++ implem
 ### Command
 ```bash
 python3 cooling_control.py
-```
+```text
 
 ### Output
 ```text
@@ -57,7 +57,7 @@ Error cleared - Restarting system
 Cooling control system stopped
 
 === Demo Complete ===
-```
+```text
 
 ### Python Analysis
 - ✅ Ignition handling works correctly
@@ -72,12 +72,12 @@ Cooling control system stopped
 ### Compilation
 ```bash
 g++ -std=c++17 cooling_control.cpp -o cooling_control -pthread
-```
+```bash
 
 ### Execution
 ```bash
 ./cooling_control
-```
+```text
 
 ### Output
 ```text
@@ -127,7 +127,7 @@ Ignition OFF - Shutting down
 Cooling control system stopped
 
 === Demo Complete ===
-```
+```text
 
 ### C++ Analysis
 - ✅ State transitions logged correctly
@@ -146,12 +146,12 @@ mkdir build
 cd build
 cmake ..
 make -j$(nproc)
-```
+```bash
 
 ### Running with Debug Mode
 ```bash
 ./build/eae_firmware --debug --setpoint 70.0
-```
+```bash
 
 ### Sample Output
 ```text
@@ -169,14 +169,14 @@ Temp: 65.5°C, Pump: ON, Fan: ON, Speed: 0%, CAN TX: 4 RX: 20
 Temp: 66.0°C, Pump: ON, Fan: ON, Speed: 0%, CAN TX: 6 RX: 30
 Temp: 66.5°C, Pump: ON, Fan: ON, Speed: 0%, CAN TX: 8 RX: 40
 Temp: 67.0°C, Pump: ON, Fan: ON, Speed: 0%, CAN TX: 10 RX: 50
-```
+```text
 
 ## Unit Test Results
 
 ### Running Tests
 ```bash
 ./build/eae_tests
-```
+```bash
 
 ### Output
 ```text
@@ -226,7 +226,7 @@ Temp: 67.0°C, Pump: ON, Fan: ON, Speed: 0%, CAN TX: 10 RX: 50
 [----------] Global test environment tear-down
 [==========] 20 tests from 4 test suites ran. (1121 ms total)
 [  PASSED  ] 20 tests.
-```
+```text
 
 ## Test Summary
 

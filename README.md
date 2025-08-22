@@ -89,7 +89,7 @@ EAE_Firmware/
 ├── THEORY_OF_OPERATION.md     # C++ implementation walkthrough
 ├── THEORY_OF_OPERATION_PYTHON.md # Python implementation guide
 └── .gitignore                 # Git ignore file
-```
+```text
 
 ## Question 7: Cooling Loop Control Logic
 
@@ -113,13 +113,13 @@ The cooling loop control logic is implemented in both Python and C++ for maximum
 Python version:
 ```bash
 python3 cooling_control.py
-```
+```bash
 
 C++ standalone version:
 ```bash
 g++ -std=c++17 cooling_control.cpp -o cooling_control -pthread
 ./cooling_control
-```
+```bash
 
 ## Question 7.1: Advanced Firmware Features
 
@@ -147,7 +147,7 @@ g++ -std=c++17 cooling_control.cpp -o cooling_control -pthread
 ./eae_firmware --setpoint 70.0     # Set temperature setpoint
 ./eae_firmware --debug             # Enable debug output
 ./eae_firmware --test              # Run in test mode
-```
+```bash
 
 ### 5. CMake Build System
 - Automatic Google Test download and integration
@@ -198,7 +198,7 @@ Using the build script:
 ```bash
 chmod +x build.sh
 ./build.sh
-```
+```bash
 
 Manual build:
 ```bash
@@ -206,53 +206,53 @@ mkdir build
 cd build
 cmake ..
 cmake --build . -j$(nproc)
-```
+```bash
 
 ### Running the Application
 
 Basic usage:
 ```bash
 ./build/eae_firmware
-```
+```bash
 
 With custom temperature setpoint:
 ```bash
 ./build/eae_firmware --setpoint 68.0 --debug
-```
+```bash
 
 Test mode with simulated inputs:
 ```bash
 ./build/eae_firmware --test --debug
-```
+```bash
 
 ## Testing
 
 Run all unit tests:
 ```bash
 ./build/eae_tests
-```
+```bash
 
 Run specific test suite:
 ```bash
 ./build/eae_tests --gtest_filter=PIDControllerTest.*
-```
+```bash
 
 Run with XML output for CI:
 ```bash
 ./build/eae_tests --gtest_output=xml:test_results.xml
-```
+```bash
 
 ### Python Testing
 
 Run Python unit tests:
 ```bash
 python -m pytest test_cooling_control.py -v
-```
+```bash
 
 Run the Python implementation demo:
 ```bash
 python3 cooling_control.py
-```
+```bash
 
 ## CI/CD Pipeline
 

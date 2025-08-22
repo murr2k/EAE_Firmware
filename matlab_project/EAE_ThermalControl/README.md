@@ -6,7 +6,7 @@ This MATLAB project implements comprehensive thermal control system modeling and
 
 ## Project Structure
 
-```
+```text
 EAE_ThermalControl/
 ├── startup.m                     # Project initialization script
 ├── README.md                     # This file
@@ -246,7 +246,7 @@ From REVIEWER_QA.md specifications:
 ## Analysis Workflow and Script Dependencies
 
 ### Workflow Diagram
-```
+```text
 startup.m
     ↓
 load_default_parameters.m → params

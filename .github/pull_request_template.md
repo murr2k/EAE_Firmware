@@ -30,7 +30,7 @@ Fixes #(issue number)
 - [ ] Any dependent changes have been merged and published
 
 ## Test Results
-```
+```text
 Paste test output here
 ```
 

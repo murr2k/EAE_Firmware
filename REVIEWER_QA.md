@@ -39,7 +39,7 @@ class AutoTuner {
     Parameters calculateOptimalPID();
     void adaptToSystemChanges();
 };
-```
+```cpp
 
 #### Future Enhancements
 - **Adaptive Control**: Monitor system response and adjust gains in real-time
@@ -72,7 +72,7 @@ class SocketCANInterface : public ICANInterface {
 class J1939Stack : public ICANInterface {
     // J1939 protocol stack for automotive
 };
-```
+```cpp
 
 #### Recommended Production Stacks
 1. **Linux Systems**: SocketCAN with libsocketcan
@@ -103,7 +103,7 @@ constexpr float LOW_LEVEL_TIMEOUT = 3.0f;    // Coolant level
 constexpr float OVER_TEMP_TIMEOUT = 10.0f;   // Over-temperature
 constexpr float CAN_MSG_TIMEOUT = 1.0f;      // Message timeout (planned)
 constexpr float SENSOR_TIMEOUT = 2.0f;       // Sensor reading (planned)
-```
+```cpp
 
 #### Signal Loss Handling
 
@@ -138,7 +138,7 @@ addTransition({
         return coolantLevelLow() && timeoutExpired(); 
     }
 });
-```
+```cpp
 
 ---
 
@@ -165,7 +165,7 @@ TEST_F(PIDControllerTest, NoiseRejection) {
     pid.calculate(65.0 + noise);
     EXPECT_LT(pid.getOutput(), 5.0); // Low gain response
 }
-```
+```cpp
 
 #### Sensor Noise Testing
 1. **White Noise**: Random ±2°C variations
@@ -192,7 +192,7 @@ TEST_F(SystemTest, SensorFailureRecovery) {
     // Verify recovery
     EXPECT_EQ(system.getState(), SystemState::RUNNING);
 }
-```
+```cpp
 
 #### Stress Testing
 - Message flooding (1000+ msgs/sec)
@@ -235,7 +235,7 @@ class SensorManager {
         });
     }
 };
-```
+```cpp
 
 #### Scaling Strategies
 

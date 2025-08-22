@@ -123,8 +123,8 @@ std::atomic<SystemState> currentState_{SystemState::OFF};
 ## Submission Preparation
 
 ### Comprehensive Zip Package
-```bash
-# Include everything needed
+```text
+Include everything needed:
 - Source code
 - Build scripts
 - Tests

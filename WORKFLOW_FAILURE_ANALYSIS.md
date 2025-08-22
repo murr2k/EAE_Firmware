@@ -53,11 +53,11 @@
 ### Option 1: Configure Super Linter (Recommended)
 Add `.github/linters/.markdown-lint.yml`:
 ```yaml
-# Disable specific rules that are too strict
+# Disable specific rules that are too strict in markdown
 MD013: false  # Line length
 MD024: false  # Multiple headers with same content
 MD026: false  # Trailing punctuation in headers
-```
+```yaml
 
 ### Option 2: Disable Super Linter Temporarily
 Set it to warning mode or disable until code style can be standardized.
@@ -66,7 +66,7 @@ Set it to warning mode or disable until code style can be standardized.
 Run clang-format on all C++ files to match expected style.
 
 ---
-# CI/CD Workflow Failure Analysis
+## Previous CI/CD Workflow Failure Analysis
 
 **Date:** July 31, 2025  
 **Pipeline Run:** https://github.com/murr2k/EAE_Firmware/actions/runs/16660614610
@@ -81,7 +81,7 @@ Run clang-format on all C++ files to match expected style.
 ### 2. ❌ Static Analysis Tools Installation
 **Issue:** clang-tidy-12 and clang-format-12 not available in Ubuntu 24.04
 **Error:** 
-```
+```text
 E: Unable to locate package clang-tidy-12
 E: Unable to locate package clang-format-12
 ```
@@ -116,14 +116,14 @@ The main issue is that the GitHub Actions runners have upgraded to Ubuntu 24.04 
 ### Priority 1: Fix Package Names (Quick Fix)
 Update `.github/workflows/ci.yml`:
 ```yaml
-# For clang builds
+# For clang builds use
 - { cc: clang, cxx: clang++ }  # Uses default clang-18
-# or
+# or use
 - { cc: clang-14, cxx: clang++-14 }  # Specific version
 
-# For static analysis
+# For static analysis use
 sudo apt-get install -y cppcheck clang-tidy clang-format
-```
+```bash
 
 ### Priority 2: Fix Linting Errors
 1. Add language specifiers to code blocks in markdown files

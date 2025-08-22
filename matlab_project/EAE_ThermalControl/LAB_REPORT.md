@@ -36,7 +36,7 @@ This laboratory experiment investigates the design, tuning, and optimization of 
 
 The PID controller implements the control law:
 
-```
+```text
 u(t) = Kp·e(t) + Ki·∫e(t)dt + Kd·de(t)/dt
 ```
 
@@ -51,7 +51,7 @@ Where:
 
 The cooling system is modeled as cascaded first-order systems with time delay:
 
-```
+```text
 G(s) = K·e^(-Ls) / [(τ₁s + 1)(τ₂s + 1)]
 ```
 
@@ -212,7 +212,7 @@ The robustness analysis reveals:
 
 The dominant time constant (τ₁ = 150s) creates a fundamental speed limitation:
 
-```
+```text
 Theoretical minimum rise time ≈ 2.2 × τ_dominant = 330 seconds
 ```
 
