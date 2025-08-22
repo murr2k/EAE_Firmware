@@ -20,8 +20,8 @@
  * Date: July 31, 2025
  */
 
-#ifndef COOLING_SYSTEM_H
-#define COOLING_SYSTEM_H
+#ifndef INCLUDE_COOLING_SYSTEM_H_
+#define INCLUDE_COOLING_SYSTEM_H_
 
 #include "state_machine.h"
 #include "pid_controller.h"
@@ -50,7 +50,7 @@ enum class SystemEvent {
 };
 
 class CoolingSystem {
-public:
+ public:
     struct Config {
         double tempMin = 50.0;
         double tempTarget = 65.0;
@@ -66,7 +66,7 @@ public:
         uint32_t fanControlId = 0x201;
     };
 
-    CoolingSystem(const Config& config);
+    explicit CoolingSystem(const Config& config);
     ~CoolingSystem();
 
     void start();
@@ -76,24 +76,24 @@ public:
     void setTemperatureSetpoint(double setpoint);
     void enableDebugMode(bool enable);
 
-    SystemState getState() const { 
+    SystemState getState() const {
         std::lock_guard<std::mutex> lock(stateMutex_);
-        return stateMachine_.getCurrentState(); 
+        return stateMachine_.getCurrentState();
     }
-    double getCurrentTemp() const { 
+    double getCurrentTemp() const {
         std::lock_guard<std::mutex> lock(stateMutex_);
-        return currentTemp_; 
+        return currentTemp_;
     }
-    int getFanSpeed() const { 
+    int getFanSpeed() const {
         std::lock_guard<std::mutex> lock(stateMutex_);
-        return fanSpeed_; 
+        return fanSpeed_;
     }
-    bool isPumpOn() const { 
+    bool isPumpOn() const {
         std::lock_guard<std::mutex> lock(stateMutex_);
-        return pumpOn_; 
+        return pumpOn_;
     }
 
-private:
+ private:
     void controlLoop();
     void setupStateMachine();
     void setupCANHandlers();
@@ -118,9 +118,9 @@ private:
 
     // Debug mode
     std::atomic<bool> debugMode_;
-    
+
     // Thread safety
     mutable std::mutex stateMutex_;  // Protects state machine and output variables
 };
 
-#endif // COOLING_SYSTEM_H
+#endif  // INCLUDE_COOLING_SYSTEM_H_

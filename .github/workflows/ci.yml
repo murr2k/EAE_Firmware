@@ -316,12 +316,11 @@ jobs:
           cppcheck_results.txt
           format_check.txt
 
-  # Memory and Sanitizer Tests (Optional - may timeout on CI)
+  # Memory and Sanitizer Tests
   sanitizer-tests:
-    name: Sanitizer Tests (Optional)
+    name: Sanitizer Tests
     runs-on: ubuntu-latest
-    continue-on-error: true  # Non-blocking - ThreadSanitizer can hang on GitHub Actions
-    timeout-minutes: 10  # Kill if it runs too long
+    timeout-minutes: 10  # Prevent infinite hangs
 
     steps:
     - name: Checkout code
@@ -352,21 +351,18 @@ jobs:
         cmake --build build-tsan
 
     - name: Run tests with ThreadSanitizer
-      timeout-minutes: 2  # Prevent hanging
-      continue-on-error: true
+      timeout-minutes: 2
       run: |
         cd build-tsan
-        # Use timeout to kill if hung, exclude CANBus tests that can deadlock
-        timeout 90 bash -c "TSAN_OPTIONS=halt_on_error=1 ./eae_tests --gtest_filter=-CANBus*" || echo "ThreadSanitizer completed or timed out"
+        TSAN_OPTIONS=halt_on_error=1:second_deadlock_stack=1 ./eae_tests || true
 
     - name: Run Valgrind memory check
       timeout-minutes: 5
-      continue-on-error: true
       run: |
         cmake -B build-valgrind -DCMAKE_BUILD_TYPE=Debug
         cmake --build build-valgrind
         cd build-valgrind
-        timeout 180 valgrind --leak-check=full --error-exitcode=1 ./eae_tests || echo "Valgrind completed or timed out"
+        valgrind --leak-check=full --error-exitcode=1 ./eae_tests
 
   # Documentation Build
   documentation:
@@ -441,32 +437,24 @@ jobs:
         name: release-artifacts
         path: release/*.zip
 
-  # Security Scan - DISABLED
-  # The Super Linter enforces style conventions that conflict with our project standards:
-  # - C++ indentation (public/private keywords)
-  # - Header guard naming conventions  
-  # - Markdown link validation
-  # - YAML 80-character limits (we use 120)
-  # Since all functional tests pass, we're disabling this check.
-  # To re-enable: uncomment the job below and fix style issues or configure linter rules.
-  
-  # security-scan:
-  #   name: Security Scan
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - name: Checkout code
-  #     uses: actions/checkout@v4
-  #   - name: Run security scan
-  #     uses: github/super-linter@v5
-  #     env:
-  #       DEFAULT_BRANCH: main
-  #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #       VALIDATE_CPP: true
-  #       VALIDATE_PYTHON3: true
-  #       VALIDATE_YAML: true
-  #       VALIDATE_JSON: true
-  #       VALIDATE_MARKDOWN: true
-  #       FILTER_REGEX_EXCLUDE: '.*/build/.*|.*/matlab_project/.*'
+  # Security Scan
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Run security scan
+      uses: github/super-linter@v5
+      env:
+        DEFAULT_BRANCH: main
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        VALIDATE_CPP: true
+        VALIDATE_PYTHON3: true
+        VALIDATE_YAML: true
+        VALIDATE_JSON: true
+        VALIDATE_MARKDOWN: true
+        FILTER_REGEX_EXCLUDE: '.*/build/.*|.*/matlab_project/.*'
 
   # Summary Job
   ci-summary:

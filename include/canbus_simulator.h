@@ -20,8 +20,8 @@
  * Date: July 31, 2025
  */
 
-#ifndef CANBUS_SIMULATOR_H
-#define CANBUS_SIMULATOR_H
+#ifndef INCLUDE_CANBUS_SIMULATOR_H_
+#define INCLUDE_CANBUS_SIMULATOR_H_
 
 #include <cstdint>
 #include <vector>
@@ -42,10 +42,10 @@ struct CANMessage {
 };
 
 class CANBusSimulator {
-public:
+ public:
     using MessageHandler = std::function<void(const CANMessage&)>;
 
-    CANBusSimulator(uint32_t nodeId);
+    explicit CANBusSimulator(uint32_t nodeId);
     ~CANBusSimulator();
 
     void start();
@@ -58,7 +58,7 @@ public:
     uint64_t getTxCount() const { return txCount_; }
     uint64_t getRxCount() const { return rxCount_; }
 
-private:
+ private:
     void receiveThread();
     void transmitThread();
 
@@ -79,4 +79,4 @@ private:
     std::atomic<uint64_t> rxCount_;
 };
 
-#endif // CANBUS_SIMULATOR_H
+#endif  // INCLUDE_CANBUS_SIMULATOR_H_

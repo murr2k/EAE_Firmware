@@ -50,14 +50,14 @@ struct ControlOutputs {
 };
 
 class PIDController {
-private:
+ private:
     float kp, ki, kd;
     float setpoint;
     float integral;
     float lastError;
     std::chrono::steady_clock::time_point lastTime;
 
-public:
+ public:
     PIDController(float p, float i, float d, float sp)
         : kp(p), ki(i), kd(d), setpoint(sp), integral(0.0f), lastError(0.0f) {
         lastTime = std::chrono::steady_clock::now();
@@ -106,7 +106,7 @@ public:
 };
 
 class CoolingController {
-private:
+ private:
     // Temperature thresholds (Celsius)
     static constexpr float TEMP_MIN = 50.0f;
     static constexpr float TEMP_TARGET = 65.0f;
@@ -316,7 +316,7 @@ private:
         }
     }
 
-public:
+ public:
     CoolingController()
         : state(SystemState::OFF),
           fanPID(2.5f, 0.5f, 0.1f, TEMP_TARGET),
@@ -356,7 +356,7 @@ public:
                   << "Fan Speed: " << outputs.fanSpeed << "%" << std::endl;
     }
 
-private:
+ private:
     void shutdownSystem() {
         outputs.pumpOn = false;
         outputs.fanOn = false;
@@ -419,7 +419,6 @@ int main() {
         std::cout << "\n[t=26s] Turning ignition OFF" << std::endl;
         controller.updateSensors(65.0f, true, false);
         std::this_thread::sleep_for(std::chrono::seconds(2));
-
     } catch (...) {
         std::cerr << "Error in demo" << std::endl;
     }
