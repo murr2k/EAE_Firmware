@@ -1,6 +1,6 @@
 # Changelog
 
-**Maintained by:** Murray Kopit  
+**Maintained by:** Murray Kopit
 **Last Updated:** July 31, 2025
 
 All notable changes to this project will be documented in this file.

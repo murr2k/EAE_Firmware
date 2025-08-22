@@ -116,20 +116,20 @@ The Python PID implementation mirrors the C++ version with cleaner syntax:
 def calculate(self, current_value: float) -> int:
     current_time = time.time()
     dt = current_time - self.last_time
-    
+
     error = current_value - self.setpoint
-    
+
     # Proportional term
     p_term = self.kp * error
-    
+
     # Integral term with anti-windup
     self.integral += error * dt
     self.integral = max(-50, min(50, self.integral))  # Anti-windup
     i_term = self.ki * self.integral
-    
+
     # Derivative term
     d_term = self.kd * (error - self.last_error) / dt if dt > 0 else 0
-    
+
     # Calculate and clamp output
     output = p_term + i_term + d_term
     return max(0, min(100, int(output)))
@@ -164,7 +164,7 @@ def _control_loop(self):
             self._handle_error_state()
         elif self.state == SystemState.EMERGENCY_STOP:
             self._handle_emergency_state()
-            
+
         time.sleep(0.1)  # 10Hz update rate
 ```
 
@@ -178,7 +178,7 @@ def _handle_off_state(self):
     self.outputs.pump_on = False
     self.outputs.fan_on = False
     self.outputs.fan_speed = 0
-    
+
     if self.sensors.ignition:
         print("Ignition ON - Starting initialization")
         self.state = SystemState.INITIALIZING
@@ -192,11 +192,11 @@ def _handle_init_state(self):
         print("ERROR: Low coolant level detected")
         self.state = SystemState.ERROR
         return
-        
+
     # Start pump
     self.outputs.pump_on = True
     self.pump_start_time = time.time()
-    
+
     # Wait for circulation (2 seconds)
     if time.time() - self.pump_start_time > 2.0:
         print("Initialization complete - System running")
@@ -256,16 +256,16 @@ if self.sensors.temperature > self.TEMP_CRITICAL:
 ```python
 def _control_temperature(self):
     temp = self.sensors.temperature
-    
+
     # Pump control (always on when running)
     self.outputs.pump_on = True
-    
+
     # Fan control with hysteresis
     if temp > self.FAN_START_TEMP:  # 60°C
         self.outputs.fan_on = True
         # PID control for fan speed
         self.outputs.fan_speed = self.pid.calculate(temp)
-        
+
     elif temp < (self.FAN_START_TEMP - 5.0):  # 55°C (5°C hysteresis)
         self.outputs.fan_on = False
         self.outputs.fan_speed = 0
@@ -284,7 +284,7 @@ def start(self):
     self.running = True
     self.control_thread = threading.Thread(target=self._control_loop)
     self.control_thread.start()
-    
+
 def stop(self):
     """Stop the control system"""
     self.running = False
@@ -308,18 +308,18 @@ The Python version includes a complete simulation for testing:
 def main():
     """Demonstration of cooling control system"""
     controller = CoolingController()
-    
+
     # Simulate various scenarios
     # 1. Normal startup
     controller.update_sensors(25.0, True, True)  # Cool, level OK, ignition ON
-    
+
     # 2. Temperature rise
     for temp in range(25, 70, 5):
         controller.update_sensors(float(temp), True, True)
-        
+
     # 3. Fault injection
     controller.update_sensors(68.0, False, True)  # Low coolant
-    
+
     # 4. Over-temperature
     controller.update_sensors(88.0, True, True)  # Critical temp
 ```

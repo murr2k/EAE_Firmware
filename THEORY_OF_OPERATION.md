@@ -29,7 +29,7 @@ This document provides a comprehensive walkthrough of the cooling control system
 The cooling control system consists of four main components:
 
 1. **PID Controller** - Closed-loop feedback control for fan speed
-2. **State Machine** - System behavior and safety management  
+2. **State Machine** - System behavior and safety management
 3. **CAN Bus Interface** - Real-time sensor data and actuator control
 4. **Safety Monitor** - Fault detection and emergency response
 
@@ -69,7 +69,7 @@ output(t) = Kp*e(t) + Ki*∫e(t)dt + Kd*de(t)/dt
 Where:
 - `e(t)` = error = setpoint - measured_value
 - `Kp` = 2.5 (Proportional gain)
-- `Ki` = 0.5 (Integral gain)  
+- `Ki` = 0.5 (Integral gain)
 - `Kd` = 0.1 (Derivative gain)
 
 ### Key Implementation Details (Lines 15-49)
@@ -78,31 +78,31 @@ Where:
 double PIDController::calculate(double processValue) {
     // 1. Calculate error from setpoint
     double error = params_.setpoint - processValue;
-    
+
     // 2. Measure time delta for discrete integration/differentiation
     double dt = 0.1;  // Default 100ms sampling
     if (!firstRun_) {
         dt = std::chrono::duration<double>(now - lastTime_).count();
     }
-    
+
     // 3. Proportional term - immediate response to error
     double pTerm = params_.kp * error;
-    
+
     // 4. Integral term - eliminates steady-state error
     integral_ += error * dt;
     integral_ = std::clamp(integral_, params_.integralMin, params_.integralMax);
     double iTerm = params_.ki * integral_;
-    
+
     // 5. Derivative term - predicts future error, adds damping
     if (!firstRun_ && dt > 0) {
         derivative_ = (error - lastError_) / dt;
     }
     double dTerm = params_.kd * derivative_;
-    
+
     // 6. Sum and constrain output
     double output = pTerm + iTerm + dTerm;
     output = std::clamp(output, params_.outputMin, params_.outputMax);
-    
+
     return output;
 }
 ```
@@ -237,7 +237,7 @@ The control loop runs at 10Hz (100ms period):
 void CoolingSystem::controlLoop() {
     while (running_) {
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
-        
+
         // Debug output shows real-time system state
         if (debugMode_) {
             std::cout << "Temp: " << currentTemp_.load() << "°C, "
@@ -316,7 +316,7 @@ Potential enhancements to discuss:
 
 Default operating parameters:
 - **Temperature Setpoint**: 65°C
-- **Fan Start Temperature**: 70°C  
+- **Fan Start Temperature**: 70°C
 - **Critical Temperature**: 95°C
 - **Maximum Temperature**: 85°C
 - **Control Rate**: 10Hz
@@ -353,7 +353,7 @@ The implementation balances performance, safety, and maintainability - key requi
 
 **Problem-Solving Examples**:
 - Anti-windup prevents integral saturation
-- Hysteresis eliminates actuator chattering  
+- Hysteresis eliminates actuator chattering
 - Guard conditions ensure safe transitions
 - Atomic variables prevent race conditions
 - Modular design enables unit testing
