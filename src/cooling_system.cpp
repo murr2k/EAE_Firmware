@@ -248,10 +248,16 @@ void CoolingSystem::updateOutputs() {
 }
 
 void CoolingSystem::controlLoop() {
+    // Use steady_clock for deterministic timing
+    using clock = std::chrono::steady_clock;
+    auto next = clock::now();
+    const auto period = std::chrono::milliseconds(100);  // 10Hz = 100ms period
+    
     while (running_) {
-        // Main control runs at 10Hz
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        // Perform control loop operations
+        // This happens at the start of each period
         
+        // Debug output (if enabled)
         if (debugMode_) {
             std::cout << std::fixed << std::setprecision(1);
             std::cout << "Temp: " << currentTemp_.load() << "°C, "
@@ -261,5 +267,10 @@ void CoolingSystem::controlLoop() {
                       << "CAN TX: " << canbus_->getTxCount() 
                       << " RX: " << canbus_->getRxCount() << std::endl;
         }
+        
+        // Calculate next wake time and sleep until then
+        // This ensures consistent 100ms periods regardless of processing time
+        next += period;
+        std::this_thread::sleep_until(next);
     }
 }
