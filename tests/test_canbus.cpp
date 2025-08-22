@@ -58,8 +58,6 @@ TEST_F(CANBusTest, SendMessage) {
     std::this_thread::sleep_for(std::chrono::milliseconds(10));
 
     EXPECT_GT(canbus->getTxCount(), 0);
-    
-    canbus->stop();
 }
 
 TEST_F(CANBusTest, InvalidMessageLength) {
@@ -73,7 +71,6 @@ TEST_F(CANBusTest, InvalidMessageLength) {
     canbus->start();
     result = canbus->sendMessage(0x123, data, 10);  // Still too long
     EXPECT_FALSE(result);
-    canbus->stop();
 }
 
 TEST_F(CANBusTest, MessageHandler) {
@@ -93,8 +90,6 @@ TEST_F(CANBusTest, MessageHandler) {
     EXPECT_TRUE(handlerCalled.load());
     EXPECT_EQ(receivedId.load(), 0x100);
     EXPECT_GT(canbus->getRxCount(), 0);
-    
-    canbus->stop();
 }
 
 TEST_F(CANBusTest, MultipleHandlers) {
@@ -121,6 +116,4 @@ TEST_F(CANBusTest, MultipleHandlers) {
     // Note: In real implementation, we'd trigger the handlers
     // For now, just check that registration doesn't crash
     EXPECT_TRUE(true);
-    
-    canbus->stop();
 }

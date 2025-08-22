@@ -35,17 +35,17 @@ CANBusSimulator::~CANBusSimulator() {
 }
 
 void CANBusSimulator::start() {
-    if (running_) return;
+    bool wasRunning = running_.exchange(true);
+    if (wasRunning) return;
 
-    running_ = true;
     rxThread_ = std::thread(&CANBusSimulator::receiveThread, this);
     txThread_ = std::thread(&CANBusSimulator::transmitThread, this);
 }
 
 void CANBusSimulator::stop() {
-    if (!running_) return;
+    bool wasRunning = running_.exchange(false);
+    if (!wasRunning) return;
 
-    running_ = false;
     txCv_.notify_all();
 
     if (rxThread_.joinable()) rxThread_.join();
