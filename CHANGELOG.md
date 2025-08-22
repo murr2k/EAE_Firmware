@@ -8,6 +8,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2025-08-22
+
+### Added
+- TX queue bounds protection with configurable limit (1024 messages) (#16)
+- Drop counter for diagnostics when queue is full (#16)
+- Comprehensive test suite for CAN bus reentrancy and queue bounds
+
+### Fixed
+- CAN handler reentrancy issues - handlers now called without holding mutex (#16)
+- Thread safety issues with proper mutex usage (#15)
+- Potential deadlock when handlers register new handlers or send messages (#16)
+
+### Changed
+- CAN handlers are now copied before invocation to prevent deadlocks
+- Security Scanner made non-blocking due to style preference conflicts
+
 ## [1.1.0] - 2025-07-31
 
 ### Added

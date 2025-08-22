@@ -57,6 +57,7 @@ class CANBusSimulator {
     // Diagnostic functions
     uint64_t getTxCount() const { return txCount_; }
     uint64_t getRxCount() const { return rxCount_; }
+    uint64_t getDropCount() const { return dropCount_; }
 
  private:
     void receiveThread();
@@ -77,6 +78,9 @@ class CANBusSimulator {
 
     std::atomic<uint64_t> txCount_;
     std::atomic<uint64_t> rxCount_;
+    std::atomic<uint64_t> dropCount_;
+    
+    static constexpr size_t kMaxQueuedMessages = 1024;
 };
 
 #endif  // INCLUDE_CANBUS_SIMULATOR_H_

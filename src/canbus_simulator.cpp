@@ -27,7 +27,7 @@
 #include <random>
 
 CANBusSimulator::CANBusSimulator(uint32_t nodeId)
-    : nodeId_(nodeId), running_(false), txCount_(0), rxCount_(0) {
+    : nodeId_(nodeId), running_(false), txCount_(0), rxCount_(0), dropCount_(0) {
 }
 
 CANBusSimulator::~CANBusSimulator() {
@@ -63,6 +63,11 @@ bool CANBusSimulator::sendMessage(uint32_t id, const uint8_t* data, uint8_t leng
 
     {
         std::lock_guard<std::mutex> lock(txMutex_);
+        // Check queue bounds to prevent unbounded growth
+        if (txQueue_.size() >= kMaxQueuedMessages) {
+            dropCount_++;
+            return false;  // Drop message if queue is full
+        }
         txQueue_.push(msg);
     }
     txCv_.notify_one();
@@ -103,13 +108,20 @@ void CANBusSimulator::receiveThread() {
             tempMsg.data[1] = temp & 0xFF;
             tempMsg.timestamp = std::chrono::steady_clock::now();
 
+            // Fix reentrancy: copy handler before calling to avoid deadlock
+            MessageHandler handler;
             {
                 std::lock_guard<std::mutex> lock(handlerMutex_);
                 auto it = handlers_.find(tempMsg.id);
                 if (it != handlers_.end()) {
-                    it->second(tempMsg);
-                    rxCount_++;
+                    handler = it->second;  // Copy handler
                 }
+            }
+            
+            // Call handler outside the lock to prevent reentrancy issues
+            if (handler) {
+                handler(tempMsg);
+                rxCount_++;
             }
         }
     }

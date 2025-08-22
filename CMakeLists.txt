@@ -44,6 +44,7 @@ add_executable(eae_tests
     tests/test_pid.cpp
     tests/test_state_machine.cpp
     tests/test_canbus.cpp
+    tests/test_canbus_issue16.cpp
     src/canbus_simulator.cpp
     src/pid_controller.cpp
     src/state_machine.cpp
