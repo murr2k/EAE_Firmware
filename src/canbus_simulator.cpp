@@ -82,7 +82,14 @@ void CANBusSimulator::receiveThread() {
 
     while (running_) {
         // Simulate receiving messages at random intervals
-        std::this_thread::sleep_for(std::chrono::milliseconds(msgDist(gen)));
+        // Use shorter sleep intervals to be more responsive to shutdown
+        auto sleepTime = std::chrono::milliseconds(msgDist(gen));
+        auto endTime = std::chrono::steady_clock::now() + sleepTime;
+        
+        // Sleep in small chunks to check running_ flag
+        while (running_ && std::chrono::steady_clock::now() < endTime) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        }
 
         // For simulation, we'll generate some test messages
         if (running_) {
