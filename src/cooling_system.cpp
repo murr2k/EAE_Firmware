@@ -94,9 +94,12 @@ void CoolingSystem::setupStateMachine() {
     // Define state handlers
     stateMachine_.addState(SystemState::OFF,
         [this]() {
-            pumpOn_ = false;
-            fanOn_ = false;
-            fanSpeed_ = 0;
+            {
+                std::lock_guard<std::mutex> lock(stateMutex_);
+                pumpOn_ = false;
+                fanOn_ = false;
+                fanSpeed_ = 0;
+            }
             updateOutputs();
             if (debugMode_) std::cout << "State: OFF" << std::endl;
         },
@@ -106,14 +109,20 @@ void CoolingSystem::setupStateMachine() {
     stateMachine_.addState(SystemState::INITIALIZING,
         [this]() {
             if (debugMode_) std::cout << "State: INITIALIZING" << std::endl;
-            pumpOn_ = true;
+            {
+                std::lock_guard<std::mutex> lock(stateMutex_);
+                pumpOn_ = true;
+            }
             updateOutputs();
 
             // Simulate init complete after 2 seconds
             std::thread([this]() {
                 std::this_thread::sleep_for(std::chrono::seconds(2));
-                if (running_ && stateMachine_.getCurrentState() == SystemState::INITIALIZING) {
-                    stateMachine_.processEvent(SystemEvent::INIT_COMPLETE);
+                if (running_) {
+                    std::lock_guard<std::mutex> lock(stateMutex_);
+                    if (stateMachine_.getCurrentState() == SystemState::INITIALIZING) {
+                        stateMachine_.processEvent(SystemEvent::INIT_COMPLETE);
+                    }
                 }
             }).detach();
         },
@@ -130,9 +139,12 @@ void CoolingSystem::setupStateMachine() {
     stateMachine_.addState(SystemState::ERROR,
         [this]() {
             if (debugMode_) std::cout << "State: ERROR" << std::endl;
-            pumpOn_ = false;
-            fanOn_ = false;
-            fanSpeed_ = 0;
+            {
+                std::lock_guard<std::mutex> lock(stateMutex_);
+                pumpOn_ = false;
+                fanOn_ = false;
+                fanSpeed_ = 0;
+            }
             updateOutputs();
         },
         nullptr
@@ -141,9 +153,12 @@ void CoolingSystem::setupStateMachine() {
     stateMachine_.addState(SystemState::EMERGENCY_STOP,
         [this]() {
             if (debugMode_) std::cout << "State: EMERGENCY_STOP" << std::endl;
-            pumpOn_ = false;
-            fanOn_ = true;
-            fanSpeed_ = 100;
+            {
+                std::lock_guard<std::mutex> lock(stateMutex_);
+                pumpOn_ = false;
+                fanOn_ = true;
+                fanSpeed_ = 100;
+            }
             updateOutputs();
         },
         nullptr
@@ -152,7 +167,10 @@ void CoolingSystem::setupStateMachine() {
     // Define transitions
     stateMachine_.addTransition({
         SystemState::OFF, SystemEvent::IGNITION_ON, SystemState::INITIALIZING,
-        [this](SystemEvent) { return levelOk_.load(); },
+        [this](SystemEvent) { 
+            std::lock_guard<std::mutex> lock(stateMutex_);
+            return levelOk_; 
+        },
         nullptr
     });
 
@@ -178,7 +196,10 @@ void CoolingSystem::setupStateMachine() {
 
     stateMachine_.addTransition({
         SystemState::ERROR, SystemEvent::ERROR_CLEARED, SystemState::INITIALIZING,
-        [this](SystemEvent) { return ignition_.load(); },
+        [this](SystemEvent) { 
+            std::lock_guard<std::mutex> lock(stateMutex_);
+            return ignition_; 
+        },
         nullptr
     });
 
@@ -202,6 +223,7 @@ void CoolingSystem::setupCANHandlers() {
     canbus_->registerHandler(config_.levelSensorId, [this](const CANMessage& msg) {
         if (msg.length >= 1) {
             bool newLevel = msg.data[0] != 0;
+            std::lock_guard<std::mutex> lock(stateMutex_);
             if (newLevel != levelOk_) {
                 levelOk_ = newLevel;
                 if (!levelOk_ && stateMachine_.getCurrentState() == SystemState::RUNNING) {
@@ -215,6 +237,7 @@ void CoolingSystem::setupCANHandlers() {
     canbus_->registerHandler(config_.ignitionId, [this](const CANMessage& msg) {
         if (msg.length >= 1) {
             bool newIgnition = msg.data[0] != 0;
+            std::lock_guard<std::mutex> lock(stateMutex_);
             if (newIgnition != ignition_) {
                 ignition_ = newIgnition;
                 if (ignition_) {
@@ -228,32 +251,42 @@ void CoolingSystem::setupCANHandlers() {
 }
 
 void CoolingSystem::handleTemperature(double temp) {
-    currentTemp_ = temp;
-
-    auto state = stateMachine_.getCurrentState();
+    SystemState state;
+    {
+        std::lock_guard<std::mutex> lock(stateMutex_);
+        currentTemp_ = temp;
+        state = stateMachine_.getCurrentState();
+    }
 
     // Check for critical conditions
     if (temp > config_.tempCritical && state == SystemState::RUNNING) {
+        std::lock_guard<std::mutex> lock(stateMutex_);
         stateMachine_.processEvent(SystemEvent::CRITICAL_TEMP);
     } else if (temp < config_.tempMax && state == SystemState::EMERGENCY_STOP) {
+        std::lock_guard<std::mutex> lock(stateMutex_);
         stateMachine_.processEvent(SystemEvent::TEMP_NORMAL);
     }
 
     // Temperature control in running state
     if (state == SystemState::RUNNING) {
-        if (temp > config_.fanStartTemp) {
-            fanOn_ = true;
-            fanSpeed_ = static_cast<int>(fanPID_.calculate(temp));
-        } else if (temp < (config_.fanStartTemp - 5.0)) {
-            fanOn_ = false;
-            fanSpeed_ = 0;
-            fanPID_.reset();
+        {
+            std::lock_guard<std::mutex> lock(stateMutex_);
+            if (temp > config_.fanStartTemp) {
+                fanOn_ = true;
+                fanSpeed_ = static_cast<int>(fanPID_.calculate(temp));
+            } else if (temp < (config_.fanStartTemp - 5.0)) {
+                fanOn_ = false;
+                fanSpeed_ = 0;
+                fanPID_.reset();
+            }
         }
         updateOutputs();
     }
 }
 
 void CoolingSystem::updateOutputs() {
+    std::lock_guard<std::mutex> lock(stateMutex_);
+    
     // Send pump control
     uint8_t pumpData[1] = { static_cast<uint8_t>(pumpOn_ ? 1 : 0) };
     canbus_->sendMessage(config_.pumpControlId, pumpData, 1);
@@ -275,11 +308,12 @@ void CoolingSystem::controlLoop() {
 
         // Debug output (if enabled)
         if (debugMode_) {
+            std::lock_guard<std::mutex> lock(stateMutex_);
             std::cout << std::fixed << std::setprecision(1);
-            std::cout << "Temp: " << currentTemp_.load() << "°C, "
+            std::cout << "Temp: " << currentTemp_ << "°C, "
                       << "Pump: " << (pumpOn_ ? "ON" : "OFF") << ", "
                       << "Fan: " << (fanOn_ ? "ON" : "OFF") << ", "
-                      << "Speed: " << fanSpeed_.load() << "%, "
+                      << "Speed: " << fanSpeed_ << "%, "
                       << "CAN TX: " << canbus_->getTxCount()
                       << " RX: " << canbus_->getRxCount() << std::endl;
         }

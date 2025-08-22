@@ -28,6 +28,7 @@
 #include "canbus_simulator.h"
 #include <atomic>
 #include <thread>
+#include <mutex>
 
 enum class SystemState {
     OFF,
@@ -75,10 +76,22 @@ public:
     void setTemperatureSetpoint(double setpoint);
     void enableDebugMode(bool enable);
 
-    SystemState getState() const { return stateMachine_.getCurrentState(); }
-    double getCurrentTemp() const { return currentTemp_; }
-    int getFanSpeed() const { return fanSpeed_; }
-    bool isPumpOn() const { return pumpOn_; }
+    SystemState getState() const { 
+        std::lock_guard<std::mutex> lock(stateMutex_);
+        return stateMachine_.getCurrentState(); 
+    }
+    double getCurrentTemp() const { 
+        std::lock_guard<std::mutex> lock(stateMutex_);
+        return currentTemp_; 
+    }
+    int getFanSpeed() const { 
+        std::lock_guard<std::mutex> lock(stateMutex_);
+        return fanSpeed_; 
+    }
+    bool isPumpOn() const { 
+        std::lock_guard<std::mutex> lock(stateMutex_);
+        return pumpOn_; 
+    }
 
 private:
     void controlLoop();
@@ -95,16 +108,19 @@ private:
     std::atomic<bool> running_;
     std::thread controlThread_;
 
-    // System state
-    std::atomic<double> currentTemp_;
-    std::atomic<bool> levelOk_;
-    std::atomic<bool> ignition_;
-    std::atomic<bool> pumpOn_;
-    std::atomic<bool> fanOn_;
-    std::atomic<int> fanSpeed_;
+    // System state - protected by stateMutex_
+    double currentTemp_;
+    bool levelOk_;
+    bool ignition_;
+    bool pumpOn_;
+    bool fanOn_;
+    int fanSpeed_;
 
     // Debug mode
     std::atomic<bool> debugMode_;
+    
+    // Thread safety
+    mutable std::mutex stateMutex_;  // Protects state machine and output variables
 };
 
 #endif // COOLING_SYSTEM_H
